@@ -1,0 +1,88 @@
+{
+  "name": "@proj-airi/drizzle-duckdb-wasm",
+  "type": "module",
+  "version": "0.1.6",
+  "private": true,
+  "description": "",
+  "author": {
+    "name": "Neko Ayaka",
+    "email": "neko@ayaka.moe",
+    "url": "https://github.com/nekomeowww"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/moeru-ai/airi.git",
+    "directory": "packages/drizzle-duckdb-wasm"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "node": "./dist/index.cjs"
+    },
+    "./bundles/default-browser": {
+      "types": "./dist/bundles/default-browser.d.ts",
+      "import": "./dist/bundles/default-browser.mjs"
+    },
+    "./bundles/default-node": {
+      "types": "./dist/bundles/default-node.d.ts",
+      "import": "./dist/bundles/default-node.mjs",
+      "node": "./dist/bundles/default-node.cjs"
+    },
+    "./bundles/import-url-browser": {
+      "types": "./dist/bundles/import-url-browser.d.ts",
+      "import": "./dist/bundles/import-url-browser.mjs"
+    },
+    "./bundles/import-url-node": {
+      "types": "./dist/bundles/import-url-node.d.ts",
+      "import": "./dist/bundles/import-url-node.mjs",
+      "node": "./dist/bundles/import-url-node.cjs"
+    }
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "README.md",
+    "dist",
+    "package.json"
+  ],
+  "scripts": {
+    "dev": "pnpm run stub && pnpm run play:dev",
+    "stub": "unbuild --stub",
+    "build": "unbuild && pnpm run play:build",
+    "play:dev": "vite",
+    "play:build": "vite build",
+    "play:preview": "vite preview",
+    "typecheck": "tsc --noEmit",
+    "db:generate": "drizzle-kit generate"
+  },
+  "peerDependencies": {
+    "web-worker": "^1.5.0"
+  },
+  "peerDependenciesMeta": {
+    "web-worker": {
+      "optional": true
+    }
+  },
+  "dependencies": {
+    "@date-fns/tz": "^1.2.0",
+    "@duckdb/duckdb-wasm": "^1.29.0",
+    "apache-arrow": "^19.0.0",
+    "date-fns": "^4.1.0",
+    "defu": "^6.1.4",
+    "drizzle-orm": "^0.39.2",
+    "es-toolkit": "^1.32.0"
+  },
+  "devDependencies": {
+    "@unocss/reset": "^65.4.3",
+    "@vitejs/plugin-vue": "^5.2.1",
+    "@vueuse/core": "^12.5.0",
+    "drizzle-kit": "^0.30.4",
+    "superjson": "^2.2.2",
+    "vite": "^6.1.0",
+    "vue": "^3.5.13",
+    "vue-tsc": "^2.2.0"
+  }
+}
