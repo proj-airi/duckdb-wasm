@@ -15,30 +15,15 @@ jobs:
       matrix:
         include:
           - os: macos-latest
-            platform: macos
-            target: x86_64-apple-darwin
-            arch: x64
-            artifact: dmg
+            args: --target x86_64-apple-darwin
           - os: macos-latest
-            platform: macos
-            target: aarch64-apple-darwin
-            arch: aarch64
-            artifact: dmg
+            args: --target aarch64-apple-darwin
           - os: ubuntu-latest
-            platform: linux
-            target: x86_64-unknown-linux-gnu
-            arch: amd64
-            artifact: AppImage
+            args: ''
           - os: ubuntu-24.04-arm
-            platform: linux
-            target: aarch64-unknown-linux-gnu
-            arch: aarch64
-            artifact: AppImage
+            args: ''
           - os: windows-latest
-            platform: windows
-            target: x86_64-pc-windows-msvc
-            arch: x64
-            artifact: exe
+            args: ''
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout
@@ -75,40 +60,9 @@ jobs:
       - name: Build Dependencies
         run: pnpm run packages:build
 
-      - name: Build Application
-        run: cd apps/stage-tamagotchi-tauri && pnpm tauri build --target ${{ matrix.target }}
-
-      - run: |
-          ref_without_v=$(echo ${{ github.ref_name }} | sed 's/^v//')
-          lowercase_artifact=$(echo ${{ matrix.artifact }} | tr '[:upper:]' '[:lower:]')
-          mkdir -p tamagotchi-dist
-          mv apps/stage-tamagotchi-tauri/src-tauri/target/${{ matrix.target }}/release/bundle/${lowercase_artifact}/airi_${ref_without_v}_${{ matrix.arch }}.${{ matrix.artifact }} \
-            tamagotchi-dist/airi-${{ matrix.platform }}-${{ matrix.arch }}-${{ github.ref_name }}.${{ matrix.artifact }}
-
-      - name: Upload Artifacts
-        uses: actions/upload-artifact@v4
+      - uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          name: airi-${{ matrix.platform }}-${{ matrix.arch }}-${{ github.ref_name }}
-          path: tamagotchi-dist/airi-${{ matrix.platform }}-${{ matrix.arch }}-${{ github.ref_name }}.${{ matrix.artifact }}
-
-  release-tamagotchi:
-    name: Release Tamagotchi
-    runs-on: ubuntu-24.04
-    needs: build-tamagotchi
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Download Artifacts
-        uses: actions/download-artifact@v4
-        with:
-          merge-multiple: true
-          path: dist
-
-      - run: ls -la dist
-
-      - name: Upload To GitHub Releases
-        uses: softprops/action-gh-release@v2
-        with:
-          files: dist/airi-*
-          append_body: true
+          tagName: ${{ github.ref_name }}
+          args: ${{ matrix.args }}
