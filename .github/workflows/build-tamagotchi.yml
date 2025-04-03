@@ -62,7 +62,7 @@ jobs:
         run: cd apps/stage-tamagotchi-tauri && pnpm tauri build --target ${{ matrix.target }}
 
       - name: Rename Artifacts
-        run: node apps/stage-tamagotchi-tauri/scripts/rename-artifacts.js
+        run: node apps/stage-tamagotchi-tauri/scripts/rename-artifacts.js ${{ matrix.target }}
 
       - name: Upload To GitHub Releases
         uses: softprops/action-gh-release@v2
