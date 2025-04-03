@@ -15,15 +15,15 @@ jobs:
       matrix:
         include:
           - os: macos-latest
-            args: --target x86_64-apple-darwin
+            target: x86_64-apple-darwin
           - os: macos-latest
-            args: --target aarch64-apple-darwin
+            target: aarch64-apple-darwin
           - os: ubuntu-latest
-            args: ''
+            target: x86_64-unknown-linux-gnu
           - os: ubuntu-24.04-arm
-            args: ''
+            target: aarch64-unknown-linux-gnu
           - os: windows-latest
-            args: ''
+            target: x86_64-pc-windows-msvc
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout
@@ -46,10 +46,10 @@ jobs:
       - name: Install Rust Stable
         uses: dtolnay/rust-toolchain@stable
         with:
-          targets: ${{ matrix.os == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
+          targets: ${{ matrix.target }}
 
       - name: install system dependencies (ubuntu only)
-        if: matrix.os == 'ubuntu-latest' || matrix.os == 'ubuntu-24.04-arm' # This must match the platform value defined above.
+        if: matrix.os == 'ubuntu-latest' || matrix.os == 'ubuntu-24.04-arm'
         run: |
           sudo apt-get update
           sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf
@@ -60,9 +60,14 @@ jobs:
       - name: Build Dependencies
         run: pnpm run packages:build
 
-      - uses: tauri-apps/tauri-action@v0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build Application
+        run: cd apps/stage-tamagotchi-tauri && pnpm tauri build --target ${{ matrix.target }}
+
+      - name: Rename Artifacts
+        run: node apps/stage-tamagotchi-tauri/scripts/rename-artifacts.js
+
+      - name: Upload To GitHub Releases
+        uses: softprops/action-gh-release@v2
         with:
-          tagName: ${{ github.ref_name }}
-          args: ${{ matrix.args }}
+          files: apps/stage-tamagotchi-tauri/bundle/airi-*
+          append_body: true
