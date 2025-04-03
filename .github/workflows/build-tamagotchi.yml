@@ -67,5 +67,5 @@ jobs:
       - name: Upload To GitHub Releases
         uses: softprops/action-gh-release@v2
         with:
-          files: apps/stage-tamagotchi-tauri/bundle/airi-*
+          files: apps/stage-tamagotchi-tauri/bundle/airi_*
           append_body: true
