@@ -1,7 +1,12 @@
-name: Build Tamagotchi
+name: Release Tamagotchi
+
+permissions:
+  contents: write
 
 on:
-  workflow_dispatch:
+  release:
+    types:
+      - prereleased
 
 jobs:
   build-tamagotchi:
@@ -10,30 +15,15 @@ jobs:
       matrix:
         include:
           - os: macos-latest
-            platform: macos
-            target: x86_64-apple-darwin
-            arch: x64
-            artifact: dmg
+            args: --target x86_64-apple-darwin
           - os: macos-latest
-            platform: macos
-            target: aarch64-apple-darwin
-            arch: aarch64
-            artifact: dmg
+            args: --target aarch64-apple-darwin
           - os: ubuntu-latest
-            platform: linux
-            target: x86_64-unknown-linux-gnu
-            arch: x86_64
-            artifact: AppImage
+            args: ''
           - os: ubuntu-24.04-arm
-            platform: linux
-            target: aarch64-unknown-linux-gnu
-            arch: aarch64
-            artifact: AppImage
+            args: ''
           - os: windows-latest
-            platform: windows
-            target: x86_64-pc-windows-msvc
-            arch: x64
-            artifact: exe
+            args: ''
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout
@@ -56,7 +46,7 @@ jobs:
       - name: Install Rust Stable
         uses: dtolnay/rust-toolchain@stable
         with:
-          targets: ${{ matrix.target }}
+          targets: ${{ matrix.platform == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
 
       - name: install system dependencies (ubuntu only)
         if: matrix.platform == 'linux' # This must match the platform value defined above.
@@ -65,14 +55,13 @@ jobs:
           sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile --loglevel debug
+        run: pnpm install --frozen-lockfile
 
       - name: Build Dependencies
         run: pnpm run packages:build
 
-      - name: Build Application
-        run: cd apps/stage-tamagotchi-tauri && pnpm tauri build --target ${{ matrix.target }}
-
-      - run: |
-          mv apps/stage-tamagotchi-tauri/src-tauri/target/${{ matrix.target }}/release/bundle/${{ matrix.artifact }}/airi_${{ github.ref_name }}_${{ matrix.arch }}.${{ matrix.artifact }} \
-            tamagotchi-dist/airi-${{ matrix.platform }}-${{ matrix.arch }}-${{ github.ref_name }}.${{ matrix.artifact }}
+      - uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          args: ${{ matrix.args }}
