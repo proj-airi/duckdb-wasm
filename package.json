@@ -12,12 +12,8 @@
   "license": "MIT",
   "scripts": {
     "postinstall": "npx simple-git-hooks && pnpm packages:build",
-    "dev": "pnpm -rF=\"./packages/*\" -F=\"./apps/*\" run --parallel dev",
-    "build": "pnpm -rF=\"./packages/*\" -F=\"./apps/*\" run build",
-    "apps:dev": "pnpm packages:stub && pnpm -rF=\"./apps/*\" run --parallel dev",
-    "apps:tamagotchi:dev": "pnpm packages:stub && pnpm -rF @proj-airi/stage-tamagotchi run dev",
-    "apps:tamagotchi:build": "pnpm packages:build && pnpm -rF @proj-airi/stage-tamagotchi run build",
-    "apps:build": "pnpm packages:build && pnpm -rF=\"./apps/*\" run build",
+    "dev": "pnpm -rF=\"./packages/*\" run --parallel dev",
+    "build": "pnpm -rF=\"./packages/*\" run build",
     "packages:dev": "pnpm packages:stub && pnpm -rF=\"./packages/*\" --parallel run dev",
     "packages:stub": "pnpm -rF=\"./packages/*\" run --parallel stub",
     "packages:build": "pnpm -rF=\"./packages/*\" run build",
@@ -25,7 +21,7 @@
     "test:run": "vitest run",
     "lint": "eslint --cache .",
     "lint:fix": "eslint --cache --fix .",
-    "typecheck": "pnpm -rF=\"./packages/*\" -F=\"./apps/*\" -F run --parallel typecheck",
+    "typecheck": "pnpm -rF=\"./packages/*\" -F run --parallel typecheck",
     "sizecheck": "npx vite-bundle-visualizer",
     "up": "taze major -I",
     "changelogithub": "changelogithub",
@@ -58,10 +54,7 @@
   },
   "workspaces": [
     "packages/**",
-    "services/**",
-    "examples/**",
-    "docs/**",
-    "apps/**"
+    "examples/**"
   ],
   "pnpm": {
     "neverBuiltDependencies": [],
