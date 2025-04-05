@@ -60,22 +60,6 @@ export interface DuckDBWasmDrizzleDatabase<
   $client: TClient
 }
 
-async function getBundles(importUrl = false): Promise<DuckDBBundles> {
-  const env = await getEnvironment()
-  switch (env) {
-    case 'browser':
-      return importUrl
-        ? (await import('@proj-airi/duckdb-wasm/bundles/import-url-browser')).getImportUrlBundles()
-        : (await import('@proj-airi/duckdb-wasm/bundles/default-browser')).getBundles()
-    case 'node':
-      return importUrl
-        ? await (await import('@proj-airi/duckdb-wasm/bundles/import-url-node')).getImportUrlBundles()
-        : await (await import('@proj-airi/duckdb-wasm/bundles/default-node')).getBundles()
-    default:
-      throw new Error(`Unsupported environment: "${env}"`)
-  }
-}
-
 function constructByDSN<
   TSchema extends Record<string, unknown> = Record<string, never>,
 >(
@@ -83,9 +67,41 @@ function constructByDSN<
   drizzleConfig?: DrizzleConfig<TSchema>,
 ): DuckDBWasmDrizzleDatabase<TSchema, Promise<DuckDBWasmClient>> {
   const structured = parseDSN(dsn)
+  let bundles: Promise<DuckDBBundles>
+
+  if (structured.bundles === 'import-url') {
+    const getBundles = async (): Promise<DuckDBBundles> => {
+      const env = await getEnvironment()
+      switch (env) {
+        case 'browser':
+          return (await import('@proj-airi/duckdb-wasm/bundles/import-url-browser')).getImportUrlBundles()
+        case 'node':
+          return await (await import('@proj-airi/duckdb-wasm/bundles/import-url-node')).getImportUrlBundles()
+        default:
+          throw new Error(`Unsupported environment: "${env}"`)
+      }
+    }
+
+    bundles = getBundles()
+  }
+  else {
+    const getBundles = async (): Promise<DuckDBBundles> => {
+      const env = await getEnvironment()
+      switch (env) {
+        case 'browser':
+          return (await import('@proj-airi/duckdb-wasm/bundles/default-browser')).getBundles()
+        case 'node':
+          return await (await import('@proj-airi/duckdb-wasm/bundles/default-node')).getBundles()
+        default:
+          throw new Error(`Unsupported environment: "${env}"`)
+      }
+    }
+
+    bundles = getBundles()
+  }
 
   return construct(connect({
-    bundles: getBundles(structured.bundles === 'import-url'),
+    bundles,
     logger: structured.logger ? new ConsoleLogger() : undefined,
     storage: structured.storage,
   }), drizzleConfig) as any
