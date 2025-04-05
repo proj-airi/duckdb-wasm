@@ -32,5 +32,5 @@ pnpm -F @proj-airi/drizzle-duckdb-wasm play:dev
 
 ## Sub-projects born from this project
 
-- [`@proj-airi/drizzle-duckdb-wasm`](https://github.com/proj-airi/duckdb-wasm/main/packages/drizzle-duckdb-wasm/README.md): Drizzle ORM driver for DuckDB WASM
+- [`@proj-airi/drizzle-duckdb-wasm`](https://github.com/proj-airi/duckdb-wasm/tree/main/packages/drizzle-duckdb-wasm/README.md): Drizzle ORM driver for DuckDB WASM
 - [`@proj-airi/duckdb-wasm`](https://github.com/proj-airi/duckdb-wasm/tree/main/packages/duckdb-wasm/README.md): Easy to use wrapper for `@duckdb/duckdb-wasm`
