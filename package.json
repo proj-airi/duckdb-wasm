@@ -1,9 +1,9 @@
 {
-  "name": "airi-vtuber",
+  "name": "duckdb-wasm",
   "type": "module",
   "private": true,
   "packageManager": "pnpm@10.5.0",
-  "description": "LLM powered virtual character",
+  "description": "Easy to use wrapper and Drizzle ORM driver for DuckDB WASM",
   "author": {
     "name": "Neko Ayaka",
     "email": "neko@ayaka.moe",
