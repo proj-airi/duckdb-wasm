@@ -65,4 +65,4 @@ async function main() {
 
 ## Footnotes
 
-Check out the [Drizzle ORM driver](https://github.com/moeru-ai/airi/blob/main/packages/drizzle-duckdb-wasm/README.md) we made for `@duckdb/duckdb-wasm` as welL!
+Check out the [Drizzle ORM driver](https://github.com/proj-airi/duckdb-wasm/blob/main/packages/drizzle-duckdb-wasm/README.md) we made for `@duckdb/duckdb-wasm` as welL!

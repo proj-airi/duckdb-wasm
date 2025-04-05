@@ -51,7 +51,7 @@ decisions when appropriate.
 ## Scope
 
 This Code of Conduct applies within all community spaces related to
-[moeru-ai/airi](https://github.com/moeru-ai/airi), and also applies when
+[proj-airi/duckdb-wasm](https://github.com/proj-airi/duckdb-wasm), and also applies when
 an individual is officially representing the community in public spaces.
 Examples of representing our community include using an official email address,
 posting via an official social media account, or acting as an appointed

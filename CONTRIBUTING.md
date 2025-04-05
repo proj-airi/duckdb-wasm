@@ -1,4 +1,4 @@
-# Start contributing to [airi](https://github.com/moeru-ai/airi)
+# Start contributing to [duckdb-wasm](https://github.com/proj-airi/duckdb-wasm)
 
 Hello! Thank you for your interest in contributing to this project. This guide will help you get started.
 
@@ -92,7 +92,7 @@ git rebase main
 
 ## Fork this project
 
-Click on the **Fork** button on the top right corner of the [moeru-ai/airi](https://github.com/moeru-ai/airi) page.
+Click on the **Fork** button on the top right corner of the [proj-airi/duckdb-wasm](https://github.com/proj-airi/duckdb-wasm) page.
 
 ## Clone
 
@@ -130,12 +130,10 @@ pnpm install
 >
 > You don't need to care about the package manager, `ni` will help you choose the right one.
 
-## Choose the application you want to develop on
-
-### Documentation site
+## Start the Drizzle DuckDB WASM playground
 
 ```shell
-pnpm -F @proj-airi/docs... --parallel dev
+pnpm -F @proj-airi/drizzle-duckdb-wasm play:dev
 ```
 
 > [!NOTE]
@@ -143,149 +141,7 @@ pnpm -F @proj-airi/docs... --parallel dev
 > For [@antfu/ni](https://github.com/antfu-collective/ni) users, you can
 >
 > ```shell
-> nr -F @proj-airi/docs... --parallel dev
-> ```
-
-### Stage web (Frontend for [airi.moeru.ai](https://airi.moeru.ai), or [airi.ayaka.io](https://airi.ayaka.io))
-
-```shell
-pnpm -F @proj-airi/stage-web... --parallel dev
-```
-
-> [!NOTE]
->
-> For [@antfu/ni](https://github.com/antfu-collective/ni) users, you can
->
-> ```shell
-> nr -F @proj-airi/stage-web... --parallel dev
-> ```
-
-### Stage Tamagotchi (Electron app for アイリ VTuber)
-
-```shell
-pnpm -F @proj-airi/stage-tamagotchi... --parallel dev
-```
-
-> [!NOTE]
->
-> For [@antfu/ni](https://github.com/antfu-collective/ni) users, you can
->
-> ```shell
-> nr -F @proj-airi/stage-tamagotchi... --parallel dev
-> ```
-
-### Telegram bot integration
-
-A Postgres database is required.
-
-```shell
-cd services/telegram-bot
-docker compose up -d
-```
-
-Configure `.env`
-
-```shell
-cp .env .env.local
-```
-
-Edit the credentials in `.env.local`.
-
-Migrate the database
-
-```shell
-pnpm -F @proj-airi/telegram-bot db:generate
-pnpm -F @proj-airi/telegram-bot db:push
-```
-
-Generate bundles for Monorepo packages
-
-```shell
-pnpm packages:stub
-```
-
-Run the bot
-
-```shell
-pnpm -F @proj-airi/telegram-bot start
-```
-
-> [!NOTE]
->
-> For [@antfu/ni](https://github.com/antfu-collective/ni) users, you can
->
-> ```shell
-> nr -F @proj-airi/telegram-bot... --parallel dev
-> ```
-
-### Discord bot integration
-
-```shell
-cd services/discord-bot
-```
-
-Configure `.env`
-
-```shell
-cp .env .env.local
-```
-
-Edit the credentials in `.env.local`.
-
-Generate bundles for Monorepo packages
-
-```shell
-pnpm packages:stub
-```
-
-Run the bot
-
-```shell
-pnpm -F @proj-airi/discord-bot start
-```
-
-> [!NOTE]
->
-> For [@antfu/ni](https://github.com/antfu-collective/ni) users, you can
->
-> ```shell
-> nr -F @proj-airi/discord-bot dev
-> ```
-
-### Minecraft agent
-
-```shell
-cd services/minecraft
-```
-
-Start a Minecraft client, export your world with desired port, and fill-in the port number in `.env.local`.
-
-Configure `.env`
-
-```shell
-cp .env .env.local
-```
-
-Edit the credentials in `.env.local`.
-
-Generate bundles for Monorepo packages
-
-```shell
-pnpm packages:stub
-```
-
-Run the bot
-
-```shell
-pnpm -F @proj-airi/minecraft-bot start
-```
-
-> [!NOTE]
->
-> For [@antfu/ni](https://github.com/antfu-collective/ni) users, you can
->
-> ```shell
-> nr -F @proj-airi/minecraft-bot dev
+> nr -F @proj-airi/drizzle-duckdb-wasm play:dev
 > ```
 
 ## Commit
@@ -333,7 +189,7 @@ You should be able to browse the branch on your fork repository.
 
 ## Creating Pull Request
 
-Navigate to [moeru-ai/airi](https://github.com/moeru-ai/airi) page, click on the **Pull requests** tab, and click on the **New pull request** button, click on the **Compare across forks** link, and select your fork repository.
+Navigate to [proj-airi/duckdb-wasm](https://github.com/proj-airi/duckdb-wasm) page, click on the **Pull requests** tab, and click on the **New pull request** button, click on the **Compare across forks** link, and select your fork repository.
 
 Review the changes, and click on the **Create pull request** button.
 

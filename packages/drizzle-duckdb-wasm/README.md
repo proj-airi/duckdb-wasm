@@ -136,4 +136,4 @@ async function main() {
 
 ## Footnotes
 
-Check out [the package](https://github.com/moeru-ai/airi/tree/main/packages/duckdb-wasm/README.md) we made for easier call to `@duckdb/duckdb-wasm` as well!
+Check out [the package](https://github.com/proj-airi/duckdb-wasm/tree/main/packages/duckdb-wasm/README.md) we made for easier call to `@duckdb/duckdb-wasm` as well!
