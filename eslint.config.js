@@ -6,11 +6,7 @@ export default antfu(
     unocss: true,
     formatters: true,
     ignores: [
-      '**/assets/js/**',
-      '**/assets/live2d/models/**',
-      'apps/stage-tamagotchi/out/**',
       '**/drizzle/**',
-      '**/.astro/**',
     ],
     rules: {
       'import/order': [
