@@ -37,10 +37,30 @@ Web browser based [Playground](https://drizzle-orm-duckdb-wasm.netlify.app/), tr
 > 
 > See also: https://github.com/vitejs/vite/issues/10838
 
+## Usage
+
+```shell
+ni @proj-airi/drizzle-duckdb-wasm -D # from @antfu/ni, can be installed via `npm i -g @antfu/ni`
+pnpm i @proj-airi/drizzle-duckdb-wasm -D
+yarn i @proj-airi/drizzle-duckdb-wasm -D
+npm i @proj-airi/drizzle-duckdb-wasm -D
+```
+
+```
+import { drizzle } from '@proj-airi/drizzle-duckdb-wasm'
+
+const db = drizzle('duckdb-wasm://?bundles=import-url', { schema })
+const results = await db.execute('SELECT count(*)::INTEGER as v FROM generate_series(0, 100) t(v)')
+console.log(results) // Output [{ v: 101 }]
+
+// Remember to close / dispose the resources.
+await db.$client.close()
+```
+
 ## Packages
 
-- [`@proj-airi/drizzle-duckdb-wasm`](https://github.com/proj-airi/duckdb-wasm/tree/main/packages/drizzle-duckdb-wasm/README.md): Drizzle ORM driver for DuckDB WASM
-- [`@proj-airi/duckdb-wasm`](https://github.com/proj-airi/duckdb-wasm/tree/main/packages/duckdb-wasm/README.md): Easy to use wrapper for `@duckdb/duckdb-wasm`
+- [`@proj-airi/drizzle-duckdb-wasm`](https://github.com/proj-airi/duckdb-wasm/tree/main/packages/drizzle-duckdb-wasm/README.md): [Drizzle ORM](https://orm.drizzle.team/) driver for [DuckDB WASM](https://github.com/duckdb/duckdb-wasm)
+- [`@proj-airi/duckdb-wasm`](https://github.com/proj-airi/duckdb-wasm/tree/main/packages/duckdb-wasm/README.md): Easy to use wrapper for [`@duckdb/duckdb-wasm`](https://github.com/duckdb/duckdb-wasm)
 
 ## Development
 
