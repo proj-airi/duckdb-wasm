@@ -46,7 +46,7 @@ yarn i @proj-airi/drizzle-duckdb-wasm -D
 npm i @proj-airi/drizzle-duckdb-wasm -D
 ```
 
-```
+```typescript
 import { drizzle } from '@proj-airi/drizzle-duckdb-wasm'
 
 const db = drizzle('duckdb-wasm://?bundles=import-url', { schema })
