@@ -1,7 +1,7 @@
 <h1 align="center">DuckDB WASM</h1>
 
 <p align="center">
-Easy to use wrapper and [Drizzle ORM](https://orm.drizzle.team/) driver for DuckDB WASM
+Easy to use wrapper and <a href="https://orm.drizzle.team/">Drizzle ORM</a> driver for DuckDB WASM
 </p>
 
 <div align="center">
