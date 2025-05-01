@@ -39,8 +39,6 @@
     "changelogithub": "^13.13.0",
     "cross-env": "^7.0.3",
     "eslint": "^9.25.0",
-    "eslint-plugin-cypress": "^4.2.1",
-    "eslint-plugin-format": "^1.0.1",
     "lint-staged": "^15.5.1",
     "rollup": "^4.40.0",
     "simple-git-hooks": "^2.12.1",
