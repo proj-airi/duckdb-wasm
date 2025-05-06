@@ -1,6 +1,6 @@
-import type { DuckDBAccessMode } from '@duckdb/duckdb-wasm'
+import { DuckDBAccessMode } from '@duckdb/duckdb-wasm'
 
-export type { DuckDBAccessMode }
+export { DuckDBAccessMode }
 
 export enum DBStorageType {
   ORIGIN_PRIVATE_FS = 'origin-private-fs',
