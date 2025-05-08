@@ -63,14 +63,14 @@
     }
   },
   "dependencies": {
-    "@date-fns/tz": "^1.2.0",
-    "@duckdb/duckdb-wasm": "1.29.1-dev68.0",
-    "apache-arrow": "^19.0.1",
-    "date-fns": "^4.1.0",
-    "defu": "^6.1.4",
-    "es-toolkit": "^1.37.2"
+    "@date-fns/tz": "catalog:",
+    "@duckdb/duckdb-wasm": "catalog:",
+    "apache-arrow": "catalog:",
+    "date-fns": "catalog:",
+    "defu": "catalog:",
+    "es-toolkit": "catalog:"
   },
   "devDependencies": {
-    "drizzle-kit": "^0.31.1"
+    "drizzle-kit": "catalog:"
   }
 }

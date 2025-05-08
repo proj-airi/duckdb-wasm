@@ -4,6 +4,141 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+catalogs:
+  default:
+    '@antfu/eslint-config':
+      specifier: ^4.13.0
+      version: 4.13.0
+    '@antfu/ni':
+      specifier: ^24.3.0
+      version: 24.3.0
+    '@cspell/dict-ru_ru':
+      specifier: ^2.3.0
+      version: 2.3.0
+    '@date-fns/tz':
+      specifier: ^1.2.0
+      version: 1.2.0
+    '@duckdb/duckdb-wasm':
+      specifier: 1.29.1-dev68.0
+      version: 1.29.1-dev68.0
+    '@iconify-json/solar':
+      specifier: ^1.2.2
+      version: 1.2.2
+    '@types/d3':
+      specifier: ^7.4.3
+      version: 7.4.3
+    '@types/d3-force':
+      specifier: ^3.0.10
+      version: 3.0.10
+    '@types/node':
+      specifier: ^22.15.17
+      version: 22.15.17
+    '@unocss/eslint-config':
+      specifier: ^66.1.1
+      version: 66.1.1
+    '@unocss/eslint-plugin':
+      specifier: ^66.1.1
+      version: 66.1.1
+    '@unocss/reset':
+      specifier: ^66.1.1
+      version: 66.1.1
+    '@vitejs/plugin-vue':
+      specifier: ^5.2.4
+      version: 5.2.4
+    '@vitest/browser':
+      specifier: ^3.1.3
+      version: 3.1.3
+    '@vitest/coverage-v8':
+      specifier: ^3.1.3
+      version: 3.1.3
+    '@vueuse/core':
+      specifier: ^13.1.0
+      version: 13.1.0
+    apache-arrow:
+      specifier: ^19.0.1
+      version: 19.0.1
+    bumpp:
+      specifier: ^10.1.0
+      version: 10.1.0
+    changelogithub:
+      specifier: ^13.13.0
+      version: 13.13.0
+    cross-env:
+      specifier: ^7.0.3
+      version: 7.0.3
+    d3:
+      specifier: ^7.9.0
+      version: 7.9.0
+    d3-force:
+      specifier: ^3.0.0
+      version: 3.0.0
+    date-fns:
+      specifier: ^4.1.0
+      version: 4.1.0
+    defu:
+      specifier: ^6.1.4
+      version: 6.1.4
+    drizzle-kit:
+      specifier: ^0.31.1
+      version: 0.31.1
+    es-toolkit:
+      specifier: ^1.37.2
+      version: 1.37.2
+    eslint:
+      specifier: ^9.26.0
+      version: 9.26.0
+    lint-staged:
+      specifier: ^15.5.2
+      version: 15.5.2
+    playwright:
+      specifier: ^1.52.0
+      version: 1.52.0
+    reka-ui:
+      specifier: ^2.2.1
+      version: 2.2.1
+    rollup:
+      specifier: ^4.40.2
+      version: 4.40.2
+    simple-git-hooks:
+      specifier: ^2.13.0
+      version: 2.13.0
+    superjson:
+      specifier: ^2.2.2
+      version: 2.2.2
+    taze:
+      specifier: ^19.1.0
+      version: 19.1.0
+    typescript:
+      specifier: ~5.8.3
+      version: 5.8.3
+    unbuild:
+      specifier: ^3.5.0
+      version: 3.5.0
+    unocss:
+      specifier: ^66.1.1
+      version: 66.1.1
+    unplugin-vue-router:
+      specifier: ^0.12.0
+      version: 0.12.0
+    vite:
+      specifier: ^6.3.5
+      version: 6.3.5
+    vite-plugin-inspect:
+      specifier: ^11.0.1
+      version: 11.0.1
+    vitest:
+      specifier: ^3.1.3
+      version: 3.1.3
+    vue:
+      specifier: ^3.5.13
+      version: 3.5.13
+    vue-router:
+      specifier: ^4.5.1
+      version: 4.5.1
+    vue-tsc:
+      specifier: ^3.0.0-alpha.6
+      version: 3.0.0-alpha.6
+
 overrides:
   array-flatten: npm:@nolyfill/array-flatten@^1.0.44
   axios: npm:feaxios@^0.0.23
@@ -19,183 +154,183 @@ importers:
   .:
     devDependencies:
       '@antfu/eslint-config':
-        specifier: ^4.13.0
+        specifier: 'catalog:'
         version: 4.13.0(@typescript-eslint/utils@8.32.0(eslint@9.26.0(jiti@2.4.2))(typescript@5.8.3))(@unocss/eslint-plugin@66.1.1(eslint@9.26.0(jiti@2.4.2))(typescript@5.8.3))(@vue/compiler-sfc@3.5.13)(eslint-plugin-format@1.0.1(eslint@9.26.0(jiti@2.4.2)))(eslint@9.26.0(jiti@2.4.2))(typescript@5.8.3)(vitest@3.1.3)
       '@antfu/ni':
-        specifier: ^24.3.0
+        specifier: 'catalog:'
         version: 24.3.0
       '@cspell/dict-ru_ru':
-        specifier: ^2.3.0
+        specifier: 'catalog:'
         version: 2.3.0
       '@types/node':
-        specifier: ^22.15.17
+        specifier: 'catalog:'
         version: 22.15.17
       '@unocss/eslint-config':
-        specifier: ^66.1.1
+        specifier: 'catalog:'
         version: 66.1.1(eslint@9.26.0(jiti@2.4.2))(typescript@5.8.3)
       '@unocss/eslint-plugin':
-        specifier: ^66.1.1
+        specifier: 'catalog:'
         version: 66.1.1(eslint@9.26.0(jiti@2.4.2))(typescript@5.8.3)
       '@vitest/coverage-v8':
-        specifier: ^3.1.3
+        specifier: 'catalog:'
         version: 3.1.3(@vitest/browser@3.1.3)(vitest@3.1.3)
       bumpp:
-        specifier: ^10.1.0
+        specifier: 'catalog:'
         version: 10.1.0(magicast@0.3.5)
       changelogithub:
-        specifier: ^13.13.0
+        specifier: 'catalog:'
         version: 13.13.0(magicast@0.3.5)
       cross-env:
-        specifier: ^7.0.3
+        specifier: 'catalog:'
         version: 7.0.3
       eslint:
-        specifier: ^9.26.0
+        specifier: 'catalog:'
         version: 9.26.0(jiti@2.4.2)
       lint-staged:
-        specifier: ^15.5.2
+        specifier: 'catalog:'
         version: 15.5.2
       rollup:
-        specifier: ^4.40.2
+        specifier: 'catalog:'
         version: 4.40.2
       simple-git-hooks:
-        specifier: ^2.13.0
+        specifier: 'catalog:'
         version: 2.13.0
       taze:
-        specifier: ^19.1.0
+        specifier: 'catalog:'
         version: 19.1.0
       typescript:
-        specifier: ~5.8.3
+        specifier: 'catalog:'
         version: 5.8.3
       unbuild:
-        specifier: ^3.5.0
+        specifier: 'catalog:'
         version: 3.5.0(typescript@5.8.3)(vue-tsc@2.2.8(typescript@5.8.3))(vue@3.5.13(typescript@5.8.3))
       unocss:
-        specifier: ^66.1.1
+        specifier: 'catalog:'
         version: 66.1.1(postcss@8.5.3)(vite@6.3.5(@types/node@22.15.17)(jiti@2.4.2)(less@4.2.2)(terser@5.17.6)(tsx@4.19.3)(yaml@2.7.1))(vue@3.5.13(typescript@5.8.3))
       vite:
-        specifier: ^6.3.5
+        specifier: 'catalog:'
         version: 6.3.5(@types/node@22.15.17)(jiti@2.4.2)(less@4.2.2)(terser@5.17.6)(tsx@4.19.3)(yaml@2.7.1)
       vite-plugin-inspect:
-        specifier: ^11.0.1
+        specifier: 'catalog:'
         version: 11.0.1(vite@6.3.5(@types/node@22.15.17)(jiti@2.4.2)(less@4.2.2)(terser@5.17.6)(tsx@4.19.3)(yaml@2.7.1))
       vitest:
-        specifier: ^3.1.3
+        specifier: 'catalog:'
         version: 3.1.3(@types/debug@4.1.12)(@types/node@22.15.17)(@vitest/browser@3.1.3)(jiti@2.4.2)(jsdom@25.0.1(bufferutil@4.0.9)(utf-8-validate@5.0.10))(less@4.2.2)(msw@2.7.3(@types/node@22.15.17)(typescript@5.8.3))(terser@5.17.6)(tsx@4.19.3)(yaml@2.7.1)
 
   packages/drizzle-duckdb-wasm:
     dependencies:
       '@date-fns/tz':
-        specifier: ^1.2.0
+        specifier: 'catalog:'
         version: 1.2.0
       '@duckdb/duckdb-wasm':
-        specifier: 1.29.1-dev68.0
+        specifier: 'catalog:'
         version: 1.29.1-dev68.0
       '@proj-airi/duckdb-wasm':
         specifier: workspace:^
         version: link:../duckdb-wasm
       apache-arrow:
-        specifier: ^19.0.1
+        specifier: 'catalog:'
         version: 19.0.1
       date-fns:
-        specifier: ^4.1.0
+        specifier: 'catalog:'
         version: 4.1.0
       defu:
-        specifier: ^6.1.4
+        specifier: 'catalog:'
         version: 6.1.4
       drizzle-orm:
         specifier: '>=0.40.0'
         version: 0.42.0(@types/pg@8.11.11)(gel@2.0.0)(pg@8.14.1)(postgres@3.4.5)
       es-toolkit:
-        specifier: ^1.37.2
+        specifier: 'catalog:'
         version: 1.37.2
       web-worker:
         specifier: ^1.5.0
         version: 1.5.0
     devDependencies:
       '@iconify-json/solar':
-        specifier: ^1.2.2
+        specifier: 'catalog:'
         version: 1.2.2
       '@types/d3':
-        specifier: ^7.4.3
+        specifier: 'catalog:'
         version: 7.4.3
       '@types/d3-force':
-        specifier: ^3.0.10
+        specifier: 'catalog:'
         version: 3.0.10
       '@unocss/reset':
-        specifier: ^66.1.1
+        specifier: 'catalog:'
         version: 66.1.1
       '@vitejs/plugin-vue':
-        specifier: ^5.2.4
+        specifier: 'catalog:'
         version: 5.2.4(vite@6.3.5(@types/node@22.15.17)(jiti@2.4.2)(less@4.2.2)(terser@5.17.6)(tsx@4.19.3)(yaml@2.7.1))(vue@3.5.13(typescript@5.8.3))
       '@vitest/browser':
-        specifier: ^3.1.3
+        specifier: 'catalog:'
         version: 3.1.3(bufferutil@4.0.9)(msw@2.7.3(@types/node@22.15.17)(typescript@5.8.3))(playwright@1.52.0)(utf-8-validate@5.0.10)(vite@6.3.5(@types/node@22.15.17)(jiti@2.4.2)(less@4.2.2)(terser@5.17.6)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.3)
       '@vueuse/core':
-        specifier: ^13.1.0
+        specifier: 'catalog:'
         version: 13.1.0(vue@3.5.13(typescript@5.8.3))
       d3:
-        specifier: ^7.9.0
+        specifier: 'catalog:'
         version: 7.9.0
       d3-force:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.0.0
       drizzle-kit:
-        specifier: ^0.31.1
+        specifier: 'catalog:'
         version: 0.31.1
       playwright:
-        specifier: ^1.52.0
+        specifier: 'catalog:'
         version: 1.52.0
       reka-ui:
-        specifier: ^2.2.1
+        specifier: 'catalog:'
         version: 2.2.1(typescript@5.8.3)(vue@3.5.13(typescript@5.8.3))
       superjson:
-        specifier: ^2.2.2
+        specifier: 'catalog:'
         version: 2.2.2
       unplugin-vue-router:
-        specifier: ^0.12.0
+        specifier: 'catalog:'
         version: 0.12.0(vue-router@4.5.1(vue@3.5.13(typescript@5.8.3)))(vue@3.5.13(typescript@5.8.3))
       vite:
-        specifier: ^6.3.5
+        specifier: 'catalog:'
         version: 6.3.5(@types/node@22.15.17)(jiti@2.4.2)(less@4.2.2)(terser@5.17.6)(tsx@4.19.3)(yaml@2.7.1)
       vue:
-        specifier: ^3.5.13
+        specifier: 'catalog:'
         version: 3.5.13(typescript@5.8.3)
       vue-router:
-        specifier: ^4.5.1
+        specifier: 'catalog:'
         version: 4.5.1(vue@3.5.13(typescript@5.8.3))
       vue-tsc:
-        specifier: ^3.0.0-alpha.6
+        specifier: 'catalog:'
         version: 3.0.0-alpha.6(typescript@5.8.3)
 
   packages/duckdb-wasm:
     dependencies:
       '@date-fns/tz':
-        specifier: ^1.2.0
+        specifier: 'catalog:'
         version: 1.2.0
       '@duckdb/duckdb-wasm':
-        specifier: 1.29.1-dev68.0
+        specifier: 'catalog:'
         version: 1.29.1-dev68.0
       apache-arrow:
-        specifier: ^19.0.1
+        specifier: 'catalog:'
         version: 19.0.1
       date-fns:
-        specifier: ^4.1.0
+        specifier: 'catalog:'
         version: 4.1.0
       defu:
-        specifier: ^6.1.4
+        specifier: 'catalog:'
         version: 6.1.4
       drizzle-orm:
         specifier: '>=0.40.0'
         version: 0.42.0(@types/pg@8.11.11)(gel@2.0.0)(pg@8.14.1)(postgres@3.4.5)
       es-toolkit:
-        specifier: ^1.37.2
+        specifier: 'catalog:'
         version: 1.37.2
       web-worker:
         specifier: ^1.5.0
         version: 1.5.0
     devDependencies:
       drizzle-kit:
-        specifier: ^0.31.1
+        specifier: 'catalog:'
         version: 0.31.1
 
 packages:

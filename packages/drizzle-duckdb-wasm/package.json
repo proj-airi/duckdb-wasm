@@ -57,7 +57,8 @@
     "typecheck": "vue-tsc --noEmit",
     "db:generate": "drizzle-kit generate",
     "test": "vitest",
-    "test:run": "vitest run"
+    "test:run": "vitest run",
+    "postinstall": "pnpm exec playwright install chromium --only-shell"
   },
   "peerDependencies": {
     "drizzle-orm": ">=0.40.0",
@@ -69,32 +70,32 @@
     }
   },
   "dependencies": {
-    "@date-fns/tz": "^1.2.0",
-    "@duckdb/duckdb-wasm": "1.29.1-dev68.0",
+    "@date-fns/tz": "catalog:",
+    "@duckdb/duckdb-wasm": "catalog:",
     "@proj-airi/duckdb-wasm": "workspace:^",
-    "apache-arrow": "^19.0.1",
-    "date-fns": "^4.1.0",
-    "defu": "^6.1.4",
-    "es-toolkit": "^1.37.2"
+    "apache-arrow": "catalog:",
+    "date-fns": "catalog:",
+    "defu": "catalog:",
+    "es-toolkit": "catalog:"
   },
   "devDependencies": {
-    "@iconify-json/solar": "^1.2.2",
-    "@types/d3": "^7.4.3",
-    "@types/d3-force": "^3.0.10",
-    "@unocss/reset": "^66.1.1",
-    "@vitejs/plugin-vue": "^5.2.4",
-    "@vitest/browser": "^3.1.3",
-    "@vueuse/core": "^13.1.0",
-    "d3": "^7.9.0",
-    "d3-force": "^3.0.0",
-    "drizzle-kit": "^0.31.1",
-    "playwright": "^1.52.0",
-    "reka-ui": "^2.2.1",
-    "superjson": "^2.2.2",
-    "unplugin-vue-router": "^0.12.0",
-    "vite": "^6.3.5",
-    "vue": "^3.5.13",
-    "vue-router": "^4.5.1",
-    "vue-tsc": "^3.0.0-alpha.6"
+    "@iconify-json/solar": "catalog:",
+    "@types/d3": "catalog:",
+    "@types/d3-force": "catalog:",
+    "@unocss/reset": "catalog:",
+    "@vitejs/plugin-vue": "catalog:",
+    "@vitest/browser": "catalog:",
+    "@vueuse/core": "catalog:",
+    "d3": "catalog:",
+    "d3-force": "catalog:",
+    "drizzle-kit": "catalog:",
+    "playwright": "catalog:",
+    "reka-ui": "catalog:",
+    "superjson": "catalog:",
+    "unplugin-vue-router": "catalog:",
+    "vite": "catalog:",
+    "vue": "catalog:",
+    "vue-router": "catalog:",
+    "vue-tsc": "catalog:"
   }
 }
