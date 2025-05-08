@@ -24,7 +24,8 @@ Web browser based [Playground](https://drizzle-orm-duckdb-wasm.netlify.app/), tr
 >         ╵                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 > ```
 >
-> This is due to an open issue with Vite, as a workaround, you can try excluding `@proj-airi/duckdb-wasm` in `optimizeDeps` in your > `vite.config.ts`:
+> This is due to an open issue with Vite, as a workaround, you can try excluding `@proj-airi/duckdb-wasm` in `optimizeDeps` in your
+> `vite.config.ts`:
 >
 > ```ts
 > export default defineConfig({
