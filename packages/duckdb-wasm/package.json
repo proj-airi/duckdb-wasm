@@ -68,9 +68,9 @@
     "apache-arrow": "^19.0.1",
     "date-fns": "^4.1.0",
     "defu": "^6.1.4",
-    "es-toolkit": "^1.35.0"
+    "es-toolkit": "^1.37.2"
   },
   "devDependencies": {
-    "drizzle-kit": "^0.31.0"
+    "drizzle-kit": "^0.31.1"
   }
 }
