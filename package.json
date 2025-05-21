@@ -14,6 +14,8 @@
     "postinstall": "npx simple-git-hooks && pnpm packages:build",
     "dev": "pnpm -rF=\"./packages/*\" run --parallel dev",
     "build": "pnpm -rF=\"./packages/*\" run build",
+    "play:dev": "pnpm run packages:dev && pnpm -r -F @proj-airi/drizzle-duckdb-wasm run play:dev",
+    "play:build": "pnpm run packages:build && pnpm -r -F @proj-airi/drizzle-duckdb-wasm run play:build",
     "packages:dev": "pnpm packages:stub && pnpm -rF=\"./packages/*\" --parallel run dev",
     "packages:stub": "pnpm -rF=\"./packages/*\" run --parallel stub",
     "packages:build": "pnpm -rF=\"./packages/*\" run build",
