@@ -68,6 +68,7 @@
     "@moeru/std": "0.1.0-beta.1",
     "apache-arrow": "^20.0.0",
     "date-fns": "^4.1.0",
+    "defu": "^6.1.4",
     "es-toolkit": "^1.38.0"
   },
   "devDependencies": {

@@ -2,7 +2,7 @@ import type { AsyncDuckDBConnection, DuckDBBundle, DuckDBBundles, Logger } from 
 import type { DBStorage } from './storage'
 
 import { AsyncDuckDB, ConsoleLogger, selectBundle, VoidLogger } from '@duckdb/duckdb-wasm'
-import { merge } from '@moeru/std/merge'
+import { defu } from 'defu'
 
 import { getEnvironment } from './common'
 import { mapStructRowData } from './format'
@@ -29,7 +29,7 @@ export interface DuckDBWasmClient {
 }
 
 export async function connect(options: ConnectOptions): Promise<DuckDBWasmClient> {
-  const opts = merge<ConnectOptions>({ logger: false }, options)
+  const opts = defu<ConnectOptions, ConnectOptions[]>(options, { logger: false })
 
   let worker: Worker
   let bundle: DuckDBBundle
