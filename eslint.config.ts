@@ -4,6 +4,7 @@ export default await antfu(
   {
     unocss: true,
     vue: true,
+    markdown: false,
     ignores: [
       '**/drizzle/**',
     ],

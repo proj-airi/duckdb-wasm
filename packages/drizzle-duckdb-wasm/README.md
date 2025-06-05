@@ -108,6 +108,7 @@ drizzle-kit generate
 ```typescript
 // ./src/index.ts
 import { read } from 'node:fs/promises'
+
 import { drizzle } from '@proj-airi/drizzle-duckdb-wasm'
 import { getBundles } from '@proj-airi/drizzle-duckdb-wasm/bundles/default-node'
 
