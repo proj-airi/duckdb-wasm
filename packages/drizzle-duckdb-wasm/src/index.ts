@@ -24,11 +24,18 @@ export type {
   ConnectOptions,
   ConnectRequiredOptions,
   DataType,
+  DBNodeFS,
+  DBOriginPrivateFS,
+  DBStorage,
   DuckDBWasmClient,
   ResultColumns,
 } from '@proj-airi/duckdb-wasm'
 export {
   connect,
+  DataFrameCellType,
+  DBStorageType,
+  DuckDBAccessMode,
+  getEnvironment,
   mapColumnData,
   mapStructRowData,
   withSavepoint,
