@@ -41,10 +41,10 @@ Web browser based [Playground](https://drizzle-orm-duckdb-wasm.netlify.app/), tr
 ## Usage
 
 ```shell
-ni @proj-airi/drizzle-duckdb-wasm -D # from @antfu/ni, can be installed via `npm i -g @antfu/ni`
-pnpm i @proj-airi/drizzle-duckdb-wasm -D
-yarn i @proj-airi/drizzle-duckdb-wasm -D
-npm i @proj-airi/drizzle-duckdb-wasm -D
+ni @proj-airi/drizzle-duckdb-wasm # from @antfu/ni, can be installed via `npm i -g @antfu/ni`
+pnpm i @proj-airi/drizzle-duckdb-wasm
+yarn i @proj-airi/drizzle-duckdb-wasm
+npm i @proj-airi/drizzle-duckdb-wasm
 ```
 
 ```typescript
