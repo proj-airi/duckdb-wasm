@@ -16,42 +16,43 @@
   },
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
+      "types": "./dist/index.d.mts",
       "import": "./dist/index.mjs",
-      "node": "./dist/index.cjs"
+      "node": "./dist/index.mjs"
     },
     "./bundles/default-browser": {
-      "types": "./dist/bundles/default-browser.d.ts",
+      "types": "./dist/bundles/default-browser.d.mts",
       "import": "./dist/bundles/default-browser.mjs"
     },
     "./bundles/default-node": {
-      "types": "./dist/bundles/default-node.d.ts",
+      "types": "./dist/bundles/default-node.d.mts",
       "import": "./dist/bundles/default-node.mjs",
-      "node": "./dist/bundles/default-node.cjs"
+      "node": "./dist/bundles/default-node.mjs"
     },
     "./bundles/import-url-browser": {
-      "types": "./dist/bundles/import-url-browser.d.ts",
+      "types": "./dist/bundles/import-url-browser.d.mts",
       "import": "./dist/bundles/import-url-browser.mjs"
     },
     "./bundles/import-url-node": {
-      "types": "./dist/bundles/import-url-node.d.ts",
+      "types": "./dist/bundles/import-url-node.d.mts",
       "import": "./dist/bundles/import-url-node.mjs",
-      "node": "./dist/bundles/import-url-node.cjs"
+      "node": "./dist/bundles/import-url-node.mjs"
     }
   },
-  "main": "./dist/index.cjs",
+  "main": "./dist/index.mjs",
   "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
+  "types": "./dist/index.d.mts",
   "files": [
     "README.md",
     "dist",
     "package.json"
   ],
   "scripts": {
-    "dev": "pnpm run stub",
-    "stub": "unbuild",
-    "build": "unbuild",
-    "typecheck": "tsc --noEmit"
+    "dev": "tsdown",
+    "stub": "tsdown",
+    "build": "tsdown",
+    "typecheck": "tsc --noEmit",
+    "attw": "attw --pack . --profile esm-only --ignore-rules cjs-resolves-to-esm"
   },
   "peerDependencies": {
     "drizzle-orm": ">=0.40.0",
@@ -69,7 +70,7 @@
     "apache-arrow": "^20.0.0",
     "date-fns": "^4.1.0",
     "defu": "^6.1.4",
-    "es-toolkit": "^1.38.0"
+    "es-toolkit": "^1.39.3"
   },
   "devDependencies": {
     "drizzle-kit": "^0.31.1"
