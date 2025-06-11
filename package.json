@@ -13,10 +13,10 @@
   "scripts": {
     "postinstall": "npx simple-git-hooks && pnpm build:packages",
     "dev": "pnpm -rF=\"./packages/*\" run --parallel dev",
-    "dev:play": "pnpm run dev:packages && pnpm -r -F @proj-airi/drizzle-duckdb-wasm run play:dev",
+    "dev:play": "pnpm -F @proj-airi/drizzle-duckdb-wasm... build && pnpm -F @proj-airi/drizzle-duckdb-wasm run dev:play",
     "dev:packages": "pnpm stub:packages && pnpm -rF=\"./packages/*\" --parallel run dev",
     "build": "pnpm -rF=\"./packages/*\" run build",
-    "build:play": "pnpm run build:packages && pnpm -r -F @proj-airi/drizzle-duckdb-wasm run play:build",
+    "build:play": "pnpm -F @proj-airi/drizzle-duckdb-wasm... build && pnpm -F @proj-airi/drizzle-duckdb-wasm run build:play",
     "build:packages": "pnpm -rF=\"./packages/*\" run build",
     "stub:packages": "pnpm -rF=\"./packages/*\" run --parallel stub",
     "test": "vitest --coverage",

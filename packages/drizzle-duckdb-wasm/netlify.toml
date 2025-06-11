@@ -1,6 +1,6 @@
 [build]
 base = "/"
-command = "pnpm run build:packages && pnpm -F @proj-airi/drizzle-duckdb-wasm run play:build"
+command = "pnpm run build:play"
 publish = "./packages/drizzle-duckdb-wasm/playground/dist"
 
 [build.environment]
