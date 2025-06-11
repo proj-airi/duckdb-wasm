@@ -45,6 +45,7 @@ jobs:
         run: |
           pnpm run build:packages
           pnpm run attw:packages
+          pnpm run build:play
 
   typecheck:
     name: Type Check
