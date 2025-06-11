@@ -12,6 +12,10 @@ Web browser based [Playground](https://drizzle-orm-duckdb-wasm.netlify.app/), tr
 
 > [!NOTE]
 >
+> This project is part of (and also associate to) the [Project AIRI](https://github.com/moeru-ai/airi), we aim to build a LLM-driven VTuber like [Neuro-sama](https://www.youtube.com/@Neurosama) (subscribe if you didn't!) if you are interested in, please do give it a try on [live demo](https://airi.moeru.ai).
+
+> [!NOTE]
+>
 > **Usage notes (as of Apr 12, 2025)**
 >
 > While using `@proj-airi/duckdb-wasm` directly or indirectly with Vite, you may encounter the following error:
