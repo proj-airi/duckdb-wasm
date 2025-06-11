@@ -13,6 +13,8 @@ Web browser based [Playground](https://drizzle-orm-duckdb-wasm.netlify.app/), tr
 > [!NOTE]
 >
 > This project is part of (and also associate to) the [Project AIRI](https://github.com/moeru-ai/airi), we aim to build a LLM-driven VTuber like [Neuro-sama](https://www.youtube.com/@Neurosama) (subscribe if you didn't!) if you are interested in, please do give it a try on [live demo](https://airi.moeru.ai).
+>
+> We use both DuckDB WASM and PGLite for the backbone implementation for memory layer as embedded databases that capable of doing vector search to power up bionic memory systems for AI VTuber and cyber livings. We shared a lot in our [DevLogs](https://airi.moeru.ai/docs/blog/devlog-20250305/) in [DevLog @ 2025.04.06](https://airi.moeru.ai/docs/blog/devlog-20250406/), please read it if you are interested in!
 > 
 > Who are we?
 >
