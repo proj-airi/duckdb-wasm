@@ -1,16 +1,18 @@
 <script setup lang="ts">
 import type { SimulationLinkDatum, SimulationNodeDatum } from 'd3'
-import type { DuckDBWasmDrizzleDatabase } from '../../../src'
 
 import * as d3 from 'd3'
 // import { eq, inArray } from 'drizzle-orm'
 import { onMounted, onUnmounted, ref, watch } from 'vue'
 
+import type { DuckDBWasmDrizzleDatabase } from '../../../src'
+
 import { drizzle } from '../../../src'
 import { buildDSN } from '../../../src/dsn'
-import * as schema from '../../db/schema'
 import { edgeGroups, edgeOwners, edgePets, edgeUsers, nodeGroups, nodePets, nodeUsers } from '../../db/schema'
 import migration1 from '../../drizzle/0001_parched_silver_centurion.sql?raw'
+
+import * as schema from '../../db/schema'
 
 const db = ref<DuckDBWasmDrizzleDatabase<typeof schema>>()
 const results = ref<Record<string, unknown>[]>()

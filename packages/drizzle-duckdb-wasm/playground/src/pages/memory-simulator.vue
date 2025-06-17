@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { EmotionalMemoryItem } from '../types/memory/emotional-memory'
-
 import { useDebounceFn } from '@vueuse/core'
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
+
+import type { EmotionalMemoryItem } from '../types/memory/emotional-memory'
 
 // Import the components
 import EmotionalMemoryChart from '../components/Memory/EmotionalMemoryChart.vue'

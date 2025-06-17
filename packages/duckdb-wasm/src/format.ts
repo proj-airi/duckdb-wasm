@@ -1,6 +1,5 @@
 import type { TZDate } from '@date-fns/tz'
 import type { Field, Schema, StructRow } from 'apache-arrow'
-import type { DataType } from './types'
 
 import { TZDateMini } from '@date-fns/tz'
 import { DataType as ArrowDataType, Struct, TimeUnit, util } from 'apache-arrow'
@@ -21,6 +20,8 @@ import {
   transpose,
 } from 'date-fns'
 import { trimEnd } from 'es-toolkit'
+
+import type { DataType } from './types'
 
 import { isNullOrUndefined, notNullOrUndefined } from './common'
 import {

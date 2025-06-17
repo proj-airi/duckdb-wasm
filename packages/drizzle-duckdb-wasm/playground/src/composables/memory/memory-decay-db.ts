@@ -1,5 +1,6 @@
 import { buildDSN } from '../../../../src/dsn'
 import { drizzle } from '../../../../src/index'
+
 import * as schema from '../../../db/schema'
 
 export async function connectToDatabase() {

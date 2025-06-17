@@ -1,9 +1,10 @@
 import type { AsyncDuckDBConnection, DuckDBBundle, DuckDBBundles, Logger } from '@duckdb/duckdb-wasm'
 import type { DataType as ArrowDataType, Field as ArrowField, Schema as ArrowSchema, Table as ArrowTable, TypeMap as ArrowTypeMap } from 'apache-arrow'
-import type { DBStorage } from './storage'
 
 import { AsyncDuckDB, ConsoleLogger, selectBundle, VoidLogger } from '@duckdb/duckdb-wasm'
 import { defu } from 'defu'
+
+import type { DBStorage } from './storage'
 
 import { getEnvironment } from './common'
 import { mapStructRowData } from './format'

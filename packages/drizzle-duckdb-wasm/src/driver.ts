@@ -1,12 +1,13 @@
 import type { DuckDBBundles } from '@duckdb/duckdb-wasm'
 import type { ConnectOptions, DuckDBWasmClient } from '@proj-airi/duckdb-wasm'
 import type { DrizzleConfig, RelationalSchemaConfig, TablesRelationalConfig } from 'drizzle-orm'
-import type { DuckDBWasmQueryResultHKT } from './session'
 
 import { ConsoleLogger } from '@duckdb/duckdb-wasm'
 import { connect, getEnvironment } from '@proj-airi/duckdb-wasm'
 import { createTableRelationsHelpers, DefaultLogger, entityKind, extractTablesRelationalConfig, isConfig } from 'drizzle-orm'
 import { PgDatabase, PgDialect } from 'drizzle-orm/pg-core'
+
+import type { DuckDBWasmQueryResultHKT } from './session'
 
 import { parseDSN } from './dsn'
 import { DuckDBWasmSession } from './session'

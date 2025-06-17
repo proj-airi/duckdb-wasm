@@ -1,9 +1,10 @@
 import type { DBOriginPrivateFS } from '@proj-airi/duckdb-wasm'
-import type { StructuredDSN } from './dsn'
 
 import { DuckDBAccessMode } from '@duckdb/duckdb-wasm'
 import { DBStorageType } from '@proj-airi/duckdb-wasm'
 import { describe, expect, it } from 'vitest'
+
+import type { StructuredDSN } from './dsn'
 
 import { buildDSN, parseDSN } from './dsn'
 import { spyConsoleWarn } from './test-utils'

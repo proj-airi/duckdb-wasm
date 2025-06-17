@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { MemoryItem } from '../../types/memory/memory-decay'
-
 import { computed } from 'vue'
+
+import type { MemoryItem } from '../../types/memory/memory-decay'
 
 const props = defineProps<{
   memory: MemoryItem

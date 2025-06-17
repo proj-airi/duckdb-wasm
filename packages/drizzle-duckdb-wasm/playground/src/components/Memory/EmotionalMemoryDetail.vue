@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { EmotionalMemoryItem } from '../../types/memory/emotional-memory'
-
 import { computed } from 'vue'
+
+import type { EmotionalMemoryItem } from '../../types/memory/emotional-memory'
 
 const props = defineProps<{
   memory: EmotionalMemoryItem

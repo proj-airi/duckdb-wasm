@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import type { MemoryItem } from '../../types/memory/memory-decay'
-
 import { useDark } from '@vueuse/core'
 import * as d3 from 'd3'
 import { onMounted, onUnmounted, ref, watchEffect } from 'vue'
+
+import type { MemoryItem } from '../../types/memory/memory-decay'
 
 const props = defineProps<{
   memoryData: MemoryItem[]

@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { MemoryItem } from '../types/memory/memory-decay'
-
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
+
+import type { MemoryItem } from '../types/memory/memory-decay'
 
 import MemoryModelSettings from '../components/Memory/DecayModelSettings.vue'
 import TimeControls from '../components/Memory/DecayTimeSettings.vue'
