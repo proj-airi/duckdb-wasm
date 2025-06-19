@@ -22,8 +22,7 @@
     },
     "./migrator": {
       "types": "./dist/migrator.d.mts",
-      "import": "./dist/migrator.mjs",
-      "node": "./dist/migrator.mjs"
+      "default": "./dist/migrator.mjs"
     },
     "./bundles/default-browser": {
       "types": "./dist/bundles/default-browser.d.mts",
