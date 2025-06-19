@@ -17,8 +17,11 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.mts",
-      "import": "./dist/index.mjs",
-      "node": "./dist/index.mjs"
+      "default": "./dist/index.mjs"
+    },
+    "./migrator": {
+      "types": "./dist/migrator.d.mts",
+      "default": "./dist/migrator.mjs"
     },
     "./bundles/default-browser": {
       "types": "./dist/bundles/default-browser.d.mts",

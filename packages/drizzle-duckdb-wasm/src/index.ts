@@ -1,6 +1,5 @@
 export * from './driver'
 export * from './dsn'
-export * from './migrator'
 export * from './session'
 export type {
   AsyncDuckDBConnection,
