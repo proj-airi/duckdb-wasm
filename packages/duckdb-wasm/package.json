@@ -64,15 +64,15 @@
     }
   },
   "dependencies": {
-    "@date-fns/tz": "^1.2.0",
+    "@date-fns/tz": "^1.4.1",
     "@duckdb/duckdb-wasm": "1.29.1-dev68.0",
     "@moeru/std": "0.1.0-beta.1",
-    "apache-arrow": "^20.0.0",
+    "apache-arrow": "^21.1.0",
     "date-fns": "^4.1.0",
     "defu": "^6.1.4",
-    "es-toolkit": "^1.39.3"
+    "es-toolkit": "^1.40.0"
   },
   "devDependencies": {
-    "drizzle-kit": "^0.31.1"
+    "drizzle-kit": "^0.31.5"
   }
 }
