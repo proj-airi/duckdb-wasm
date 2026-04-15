@@ -1,15 +1,16 @@
 <script setup lang="ts">
+import type { DuckDBWasmDrizzleDatabase } from '../../../src'
+
 import { DuckDBAccessMode } from '@duckdb/duckdb-wasm'
 import { DBStorageType } from '@proj-airi/duckdb-wasm'
 import { serialize } from 'superjson'
 import { computed, onMounted, onUnmounted, ref } from 'vue'
 
-import type { DuckDBWasmDrizzleDatabase } from '../../../src'
+import migration1 from '../../drizzle/0000_cute_kulan_gath.sql?raw'
 
 import { drizzle } from '../../../src'
 import { buildDSN } from '../../../src/dsn'
 import { users } from '../../db/schema'
-import migration1 from '../../drizzle/0000_cute_kulan_gath.sql?raw'
 
 import * as schema from '../../db/schema'
 

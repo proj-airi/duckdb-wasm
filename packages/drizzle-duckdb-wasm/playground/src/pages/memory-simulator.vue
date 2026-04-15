@@ -1,8 +1,8 @@
 <script setup lang="ts">
+import type { EmotionalMemoryItem } from '../types/memory/emotional-memory'
+
 import { useDebounceFn } from '@vueuse/core'
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
-
-import type { EmotionalMemoryItem } from '../types/memory/emotional-memory'
 
 // Import the components
 import EmotionalMemoryChart from '../components/Memory/EmotionalMemoryChart.vue'
@@ -10,6 +10,7 @@ import EmotionalMemoryDetail from '../components/Memory/EmotionalMemoryDetail.vu
 import EmotionalSettings from '../components/Memory/EmotionalSettings.vue'
 import MemoryRetrievalHeatmap from '../components/Memory/MemoryRetrievalHeatmap.vue'
 import Range from '../components/Range.vue'
+
 import {
   connectToDatabase,
   createEmotionalSchema,

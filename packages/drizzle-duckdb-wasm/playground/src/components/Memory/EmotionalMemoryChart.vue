@@ -1,9 +1,10 @@
 <script setup lang="ts">
+import type { EmotionalMemoryItem } from '../../types/memory/emotional-memory'
+
 import { useDark } from '@vueuse/core'
-import * as d3 from 'd3'
 import { onMounted, onUnmounted, ref, watchEffect } from 'vue'
 
-import type { EmotionalMemoryItem } from '../../types/memory/emotional-memory'
+import * as d3 from 'd3'
 
 const props = defineProps<{
   memoryData: EmotionalMemoryItem[]

@@ -1,6 +1,8 @@
 import type { TZDate } from '@date-fns/tz'
 import type { Field, Schema, StructRow } from 'apache-arrow'
 
+import type { DataType } from './types'
+
 import { TZDateMini } from '@date-fns/tz'
 import { DataType as ArrowDataType, Struct, TimeUnit, util } from 'apache-arrow'
 import {
@@ -20,8 +22,6 @@ import {
   transpose,
 } from 'date-fns'
 import { trimEnd } from 'es-toolkit'
-
-import type { DataType } from './types'
 
 import { isNullOrUndefined, notNullOrUndefined } from './common'
 import {
@@ -46,34 +46,34 @@ import {
  * Reason is that these types are not supported by moment.js, but also they are not
  * very commonly used in practice.
  */
-type SupportedPandasOffsetType =
+type SupportedPandasOffsetType
   // yearly frequency:
-  | 'A' // deprecated alias
-  | 'Y'
+  = | 'A' // deprecated alias
+    | 'Y'
   // quarterly frequency:
-  | 'Q'
+    | 'Q'
   // monthly frequency:
-  | 'M'
+    | 'M'
   // weekly frequency:
-  | 'W'
+    | 'W'
   // calendar day frequency:
-  | 'D'
+    | 'D'
   // hourly frequency:
-  | 'H' // deprecated alias
-  | 'h'
+    | 'H' // deprecated alias
+    | 'h'
   // minutely frequency
-  | 'T' // deprecated alias
-  | 'min'
+    | 'T' // deprecated alias
+    | 'min'
   // secondly frequency:
-  | 'S' // deprecated alias
-  | 's'
+    | 'S' // deprecated alias
+    | 's'
   // milliseconds frequency:
-  | 'L' // deprecated alias
-  | 'ms'
+    | 'L' // deprecated alias
+    | 'ms'
 
-type PandasPeriodFrequency =
-  | SupportedPandasOffsetType
-  | `${SupportedPandasOffsetType}-${string}`
+type PandasPeriodFrequency
+  = | SupportedPandasOffsetType
+    | `${SupportedPandasOffsetType}-${string}`
 
 const BASE_DATE = new Date(1970, 0, 1) // 1970-01-01
 

@@ -1,9 +1,9 @@
 import type { MigrationConfig } from 'drizzle-orm/migrator'
 import type { PgSession } from 'drizzle-orm/pg-core'
 
-import { readMigrationFiles } from 'drizzle-orm/migrator'
-
 import type { DuckDBWasmDatabase } from './driver'
+
+import { readMigrationFiles } from 'drizzle-orm/migrator'
 
 export async function migrate<TSchema extends Record<string, unknown>>(
   db: DuckDBWasmDatabase<TSchema>,

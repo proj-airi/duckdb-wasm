@@ -1,9 +1,10 @@
 import type { DBNodeFS } from '@proj-airi/duckdb-wasm'
 
+import path from 'node:path'
+
 import { randomUUID } from 'node:crypto'
 import { readdir, unlink } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
-import path from 'node:path'
 
 import { DuckDBAccessMode } from '@duckdb/duckdb-wasm'
 import { DBStorageType } from '@proj-airi/duckdb-wasm'

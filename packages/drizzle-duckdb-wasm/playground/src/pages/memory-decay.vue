@@ -1,13 +1,14 @@
 <script setup lang="ts">
-import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
-
 import type { MemoryItem } from '../types/memory/memory-decay'
+
+import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 
 import MemoryModelSettings from '../components/Memory/DecayModelSettings.vue'
 import TimeControls from '../components/Memory/DecayTimeSettings.vue'
 import MemoryDetails from '../components/Memory/RecordDetail.vue'
 import MemoryChart from '../components/Memory/VisualizeChart.vue'
 import MemoryTable from '../components/Memory/VisualizeTable.vue'
+
 import {
   connectToDatabase,
   createSchema,

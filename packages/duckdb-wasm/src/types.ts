@@ -5,20 +5,20 @@ import { DataType as ArrowDataType } from 'apache-arrow'
 import { isNullOrUndefined } from './common'
 
 /** Data types used by ArrowJS. */
-export type DataType =
-  | null
-  | boolean
-  | number
-  | string
-  | Date // datetime
-  | Int32Array // int
-  | Uint8Array // bytes
-  | Uint32Array // Decimal
-  | Vector // arrays
-  | StructRow // interval
-  | Dictionary // categorical
-  | Struct // dict
-  | bigint // period
+export type DataType
+  = | null
+    | boolean
+    | number
+    | string
+    | Date // datetime
+    | Int32Array // int
+    | Uint8Array // bytes
+    | Uint32Array // Decimal
+    | Vector // arrays
+    | StructRow // interval
+    | Dictionary // categorical
+    | Struct // dict
+    | bigint // period
 
 /** The type of the cell. */
 export enum DataFrameCellType {
