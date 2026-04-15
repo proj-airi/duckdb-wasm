@@ -26,9 +26,9 @@ interface DataPoint {
   type: string
 }
 
-const chartContainer = ref(null)
-const tooltip = ref(null)
-let resizeObserver = null
+const chartContainer = ref<HTMLDivElement | null>(null)
+const tooltip = ref<d3.Selection<HTMLDivElement, unknown, null, undefined> | null>(null)
+let resizeObserver: ResizeObserver | null = null
 
 const isDark = useDark()
 
@@ -41,8 +41,12 @@ watchEffect(() => {
 
 // Render D3 chart
 function renderChart() {
+  const container = chartContainer.value
+  if (!container)
+    return
+
   // Clear existing chart
-  d3.select(chartContainer.value).selectAll('*').remove()
+  d3.select(container).selectAll('*').remove()
 
   // Find the selected memory
   const memory = props.memoryData.find(m => m.id === props.selectedMemoryId)
@@ -50,7 +54,7 @@ function renderChart() {
     return
 
   // Get container dimensions
-  const containerRect = chartContainer.value.getBoundingClientRect()
+  const containerRect = container.getBoundingClientRect()
   const containerWidth = containerRect.width
   const containerHeight = containerRect.height || 700
 
@@ -198,14 +202,18 @@ function renderChart() {
 
   // Create tooltip if it doesn't exist
   if (!tooltip.value) {
-    tooltip.value = d3.select(chartContainer.value)
+    tooltip.value = d3.select(container)
       .append('div')
       .attr('class', 'absolute pointer-events-none transition-opacity duration-200 bg-white dark:bg-neutral-800 p-2 rounded shadow-md text-sm z-10')
       .style('opacity', 0)
   }
 
   // Create SVG
-  const svg = d3.select(chartContainer.value)
+  const tip = tooltip.value
+  if (!tip)
+    return
+
+  const svg = d3.select(container)
     .append('svg')
     .attr('width', '100%')
     .attr('height', '100%')
@@ -216,12 +224,12 @@ function renderChart() {
 
   // Set up scales
   const xExtent = [0, maxDays + ageInDays]
-  const yExtent = [0, d3.max([
+  const yExtent = [0, (d3.max([
     ...emotionalData,
     ...baselineData,
     ...joyData,
     ...aversionData,
-  ], d => d.y) * 1.1]
+  ], d => d.y) ?? 0) * 1.1]
 
   const xScale = d3.scaleLinear()
     .domain(xExtent)
@@ -268,7 +276,7 @@ function renderChart() {
   addTitleAndLegends(svg, memory.id, joyScore, aversionScore, retrievalCount, width)
 
   // Add data points with interaction
-  addDataPoints(svg, emotionalData, baselineData, xScale, yScale)
+  addDataPoints(svg, emotionalData, baselineData, xScale, yScale, tip)
 }
 
 function addAxesAndGrids(
@@ -442,6 +450,7 @@ function addDataPoints(
   baselineData: DataPoint[],
   xScale: d3.ScaleLinear<number, number>,
   yScale: d3.ScaleLinear<number, number>,
+  tip: d3.Selection<HTMLDivElement, unknown, null, undefined>,
 ): void {
   // Add key data points for emotional line
   svg.selectAll('.point-emotional')
@@ -464,7 +473,7 @@ function addDataPoints(
       const baselinePoint = baselineData.find(bd => bd.x === d.x)
       const baselineValue = baselinePoint ? Math.round(baselinePoint.y) : 'N/A'
 
-      tooltip.value
+      tip
         .style('opacity', 1)
         .html(`
           <div class="font-semibold">${d.label}</div>
@@ -481,7 +490,7 @@ function addDataPoints(
         .duration(200)
         .attr('r', (d, i) => i < 2 ? 6 : 4)
 
-      tooltip.value
+      tip
         .transition()
         .duration(200)
         .style('opacity', 0)

@@ -10,6 +10,7 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits(['retrieve'])
+type EmotionalResponse = 'joy' | 'aversion' | 'neutral' | 'strong-joy' | 'strong-aversion'
 
 // Calculate age in days
 const ageInDays = computed(() => {
@@ -96,7 +97,7 @@ const emotionalMultiplier = computed(() => {
   return Math.round(combined * 100)
 })
 
-function simulateRetrieval(emotionalResponse = null) {
+function simulateRetrieval(emotionalResponse: EmotionalResponse | null = null) {
   if (emotionalResponse === 'joy') {
     emit('retrieve', props.memory.id, { joyModifier: 0.1, aversionModifier: -0.05 })
   }

@@ -23,16 +23,16 @@ const props = defineProps<{
 
 const emit = defineEmits(['select', 'retrieve'])
 
-function selectMemory(id) {
+function selectMemory(id: string) {
   emit('select', id)
 }
 
-function retrieveMemory(id, event) {
+function retrieveMemory(id: string, event: MouseEvent) {
   event.stopPropagation()
   emit('retrieve', id)
 }
 
-function getMemoryStatus(memory) {
+function getMemoryStatus(memory: MemoryDataItem) {
   if (props.longTermMemoryEnabled && memory.retrieval_count >= props.longTermMemoryThreshold) {
     return {
       type: 'long-term',

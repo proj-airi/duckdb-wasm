@@ -19,8 +19,7 @@ describe('parseDSN', { timeout: 10000 }, async () => {
   it('should parse OPFS with path', async () => {
     const dsn = 'duckdb-wasm:///path/to/database.db?storage=origin-private-fs'
 
-    let structured: StructuredDSN
-    expect(() => structured = parseDSN(dsn)).not.toThrow()
+    const structured = parseDSN(dsn)
     expect(structured).toEqual({
       scheme: 'duckdb-wasm:',
       storage: {
@@ -36,8 +35,7 @@ describe('parseDSN', { timeout: 10000 }, async () => {
     const dsn = 'duckdb-wasm://path/to/database.db?storage=origin-private-fs'
     //                        ^~~~~ missing leading slash: this will be parsed as host/hostname
 
-    let structured: StructuredDSN
-    expect(() => structured = parseDSN(dsn)).not.toThrow()
+    const structured = parseDSN(dsn)
     expect(structured).toEqual({
       scheme: 'duckdb-wasm:',
       storage: {
@@ -89,8 +87,7 @@ describe('buildDSN', { timeout: 10000 }, async () => {
       } as DBOriginPrivateFS,
     }
 
-    let url: URL
-    expect(() => url = new URL(buildDSN(structured))).not.toThrow()
+    const url = new URL(buildDSN(structured))
     expect(url.protocol).toBe('duckdb-wasm:')
     expect(url.host).toBe('')
     expect(url.pathname).toBe('/path/to/database.db')
@@ -110,8 +107,7 @@ describe('buildDSN', { timeout: 10000 }, async () => {
       } as DBOriginPrivateFS,
     }
 
-    let url: URL
-    expect(() => url = new URL(buildDSN(structured))).not.toThrow()
+    const url = new URL(buildDSN(structured))
     expect(url.protocol).toBe('duckdb-wasm:')
     expect(url.host).toBe('')
     expect(url.pathname).toBe('/path/to/database.db')
@@ -131,8 +127,7 @@ describe('buildDSN', { timeout: 10000 }, async () => {
       } as DBOriginPrivateFS,
     }
 
-    let url: URL
-    expect(() => url = new URL(buildDSN(structured))).not.toThrow()
+    const url = new URL(buildDSN(structured))
     expect(url.protocol).toBe('duckdb-wasm:')
     expect(url.host).toBe('')
     expect(url.pathname).toBe('/path/to/database.db')

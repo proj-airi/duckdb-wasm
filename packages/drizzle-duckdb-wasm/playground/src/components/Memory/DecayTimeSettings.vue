@@ -5,6 +5,7 @@ import { computed, ref } from 'vue'
 const emit = defineEmits([
   'timeJump',
 ])
+type TimeJumpUnit = 'hour' | 'day' | 'week' | 'month'
 
 const simulatedTimeOffset = defineModel<number>('simulatedTimeOffset', { default: 0 })
 const isTimeAccelerated = defineModel<boolean>('isTimeAccelerated', { default: false })
@@ -94,7 +95,7 @@ function setCustomTimeMultiplier() {
   timeMultiplier.value = multiplier
 }
 
-function jumpAhead(amount, unit) {
+function jumpAhead(amount: number, unit: TimeJumpUnit) {
   emit('timeJump', { amount, unit })
 }
 </script>
@@ -224,3 +225,4 @@ function jumpAhead(amount, unit) {
     </div>
   </div>
 </template>
+type TimeJumpUnit = 'hour' | 'day' | 'week' | 'month'

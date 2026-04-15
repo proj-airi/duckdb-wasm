@@ -21,9 +21,9 @@ interface HeatmapCell {
   aversionScore: number
 }
 
-const heatmapContainer = ref<HTMLDivElement>()
-const tooltip = ref<d3.Selection<HTMLDivElement, unknown, null, undefined>>()
-let resizeObserver: ResizeObserver | undefined
+const heatmapContainer = ref<HTMLDivElement | null>(null)
+const tooltip = ref<d3.Selection<HTMLDivElement, unknown, null, undefined> | null>(null)
+let resizeObserver: ResizeObserver | null = null
 
 // Add mode toggle
 const viewMode = ref<'patterns' | 'counts'>('patterns')
@@ -35,11 +35,15 @@ watchEffect(() => {
 })
 
 function renderHeatmap() {
+  const container = heatmapContainer.value
+  if (!container)
+    return
+
   // Clear existing chart
-  d3.select(heatmapContainer.value).selectAll('*').remove()
+  d3.select(container).selectAll('*').remove()
 
   // Get container dimensions
-  const containerRect = heatmapContainer.value.getBoundingClientRect()
+  const containerRect = container.getBoundingClientRect()
   const containerWidth = containerRect.width
   const containerHeight = 300 // Fixed height for the heatmap
 
@@ -89,14 +93,18 @@ function renderHeatmap() {
 
   // Create tooltip if it doesn't exist
   if (!tooltip.value) {
-    tooltip.value = d3.select(heatmapContainer.value)
+    tooltip.value = d3.select(container)
       .append('div')
       .attr('class', 'absolute pointer-events-none transition-opacity duration-200 bg-white dark:bg-neutral-800 p-2 rounded shadow-md text-sm z-10')
       .style('opacity', 0)
   }
 
   // Create SVG
-  const svg = d3.select(heatmapContainer.value)
+  const tip = tooltip.value
+  if (!tip)
+    return
+
+  const svg = d3.select(container)
     .append('svg')
     .attr('width', containerWidth)
     .attr('height', containerHeight)
@@ -146,7 +154,7 @@ function renderHeatmap() {
     .append('rect')
     .attr('class', 'heatmap-cell')
     .attr('x', d => xScale(d.day))
-    .attr('y', d => yScale(d.id))
+    .attr('y', d => yScale(d.id) ?? 0)
     .attr('width', _d => Math.max(2, width / props.timeRange)) // Ensure cells are visible
     .attr('height', yScale.bandwidth())
     .attr('fill', (d) => {
@@ -184,7 +192,7 @@ function renderHeatmap() {
         `
       }
 
-      tooltip.value
+      tip
         .style('opacity', 1)
         .html(tooltipContent)
         .style('left', `${event.offsetX + 10}px`)
@@ -197,7 +205,7 @@ function renderHeatmap() {
         // @ts-expect-error - d is of type HeatmapCell
         .attr('stroke-width', d => d.isRandom ? 1 : 0)
 
-      tooltip.value
+      tip
         .style('opacity', 0)
     })
 
@@ -236,11 +244,15 @@ function renderHeatmap() {
 
 // New function to render the count heatmap
 function renderCountHeatmap() {
+  const container = heatmapContainer.value
+  if (!container)
+    return
+
   // Clear existing chart
-  d3.select(heatmapContainer.value).selectAll('*').remove()
+  d3.select(container).selectAll('*').remove()
 
   // Get container dimensions
-  const containerRect = heatmapContainer.value.getBoundingClientRect()
+  const containerRect = container.getBoundingClientRect()
   const containerWidth = containerRect.width
   const containerHeight = 300 // Fixed height for the heatmap
 
@@ -251,14 +263,18 @@ function renderCountHeatmap() {
 
   // Create tooltip if it doesn't exist
   if (!tooltip.value) {
-    tooltip.value = d3.select(heatmapContainer.value)
+    tooltip.value = d3.select(container)
       .append('div')
       .attr('class', 'absolute pointer-events-none transition-opacity duration-200 bg-white dark:bg-neutral-800 p-2 rounded shadow-md text-sm z-10')
       .style('opacity', 0)
   }
 
   // Create SVG
-  const svg = d3.select(heatmapContainer.value)
+  const tip = tooltip.value
+  if (!tip)
+    return
+
+  const svg = d3.select(container)
     .append('svg')
     .attr('width', containerWidth)
     .attr('height', containerHeight)
@@ -314,7 +330,7 @@ function renderCountHeatmap() {
     .enter()
     .append('g')
     .attr('class', 'count-bar')
-    .attr('transform', d => `translate(0, ${yScale(d.id)})`)
+    .attr('transform', d => `translate(0, ${yScale(d.id) ?? 0})`)
 
   // Add bars
   bars.append('rect')
@@ -344,7 +360,7 @@ function renderCountHeatmap() {
         <div>Aversion: ${Math.round(d.aversionScore * 100)}%</div>
       `
 
-      tooltip.value
+      tip
         .style('opacity', 1)
         .html(tooltipContent)
         .style('left', `${event.offsetX + 10}px`)
@@ -355,7 +371,7 @@ function renderCountHeatmap() {
         .attr('stroke', 'rgba(255, 255, 255, 0.3)')
         .attr('stroke-width', 1)
 
-      tooltip.value
+      tip
         .style('opacity', 0)
     })
 

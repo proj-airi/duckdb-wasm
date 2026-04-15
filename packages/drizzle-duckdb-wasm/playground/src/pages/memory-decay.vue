@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { MemoryPlaygroundDB } from '../composables/memory/memory-decay-db'
 import type { MemoryItem } from '../types/memory/memory-decay'
 
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
@@ -18,7 +19,7 @@ import {
 } from '../composables/memory/memory-decay-db'
 
 // Database references
-const db = ref(null)
+const db = ref<MemoryPlaygroundDB | null>(null)
 const isMigrated = ref(false)
 
 // Data and query results
@@ -29,7 +30,7 @@ const decayedResults = ref<MemoryItem[]>([])
 const decayRate = ref(0.0990)
 const timeUnit = ref('days')
 const maxDaysToShow = ref(30)
-const selectedStoryId = ref(null)
+const selectedStoryId = ref<string | null>(null)
 
 // Time acceleration parameters
 const timeMultiplier = ref(60 * 60 * 24) // Default: 1 day/second
@@ -84,19 +85,25 @@ async function initialize() {
 
 // Load data from the database
 async function loadData() {
-  rawData.value = await db.value?.execute(`
+  if (!db.value)
+    return
+
+  rawData.value = (await db.value?.execute(`
     SELECT id, score, updated_at, last_retrieved_at, retrieval_count,
       CAST(updated_at AS VARCHAR) as updated_at_str,
       CAST(last_retrieved_at AS VARCHAR) as last_retrieved_str
     FROM memories_decay_test_table
     ORDER BY score DESC
-  `) || []
+  `) as unknown as MemoryItem[]) || []
   await runDecayQuery()
 }
 
 const decayQuery = ref('')
 
 watch([simulatedTimeOffset, decayRate, timeUnit, longTermMemoryEnabled, longTermMemoryThreshold, longTermMemoryStability, retrievalBoost, retrievalDecaySlowdown], async () => {
+  if (!db.value)
+    return
+
   const query = await generateDecayQuery(db.value, {
     simulatedTimeOffset: simulatedTimeOffset.value,
     decayRate: decayRate.value,
@@ -113,10 +120,10 @@ watch([simulatedTimeOffset, decayRate, timeUnit, longTermMemoryEnabled, longTerm
 
 // Run the decay query
 async function runDecayQuery() {
-  if (!decayQuery.value)
+  if (!db.value || !decayQuery.value)
     return
 
-  decayedResults.value = await db.value?.execute(decayQuery.value) || []
+  decayedResults.value = (await db.value?.execute(decayQuery.value) as unknown as MemoryItem[]) || []
 
   // Initialize selectedStoryId if not set or update if selection changed
   if (!selectedStoryId.value && decayedResults.value.length) {
@@ -125,13 +132,16 @@ async function runDecayQuery() {
 }
 
 // Handle simulated retrieval
-async function handleRetrieval(storyId) {
+async function handleRetrieval(storyId: string) {
+  if (!db.value)
+    return
+
   await simulateRetrieval(db.value, storyId, currentSimulatedTime.value)
   await loadData()
 }
 
 // Handle time jump
-async function handleTimeJump({ amount, unit }) {
+async function handleTimeJump({ amount, unit }: { amount: number, unit: 'hour' | 'day' | 'week' | 'month' }) {
   let secondsToAdd = 0
 
   switch (unit) {
@@ -212,7 +222,9 @@ onMounted(async () => {
 
 onUnmounted(() => {
   isTimeAccelerated.value = false
-  db.value?.$client.then(client => client.close())
+  db.value?.$client.then((client: any) => {
+    client.close()
+  })
 })
 </script>
 
@@ -288,7 +300,7 @@ onUnmounted(() => {
         <!-- Chart -->
         <MemoryChart
           :memory-data="decayedResults"
-          :selected-story-id="selectedStoryId"
+          :selected-story-id="selectedStoryId!"
           :decay-rate="decayRate"
           :max-days-to-show="maxDaysToShow"
           :long-term-memory-enabled="longTermMemoryEnabled"

@@ -33,9 +33,9 @@ interface ChartData {
   }
 }
 
-const chartContainer = ref(null)
-const tooltip = ref(null)
-let resizeObserver = null
+const chartContainer = ref<HTMLDivElement | null>(null)
+const tooltip = ref<d3.Selection<HTMLDivElement, unknown, null, undefined> | null>(null)
+let resizeObserver: ResizeObserver | null = null
 
 const isDark = useDark()
 
@@ -48,8 +48,12 @@ watchEffect(() => {
 
 // Render D3 chart
 function renderChart() {
+  const container = chartContainer.value
+  if (!container)
+    return
+
   // Clear existing chart
-  d3.select(chartContainer.value).selectAll('*').remove()
+  d3.select(container).selectAll('*').remove()
 
   // Find the selected story
   const story = props.memoryData.find(s => s.id === props.selectedStoryId)
@@ -57,7 +61,7 @@ function renderChart() {
     return
 
   // Get container dimensions
-  const containerRect = chartContainer.value.getBoundingClientRect()
+  const containerRect = container.getBoundingClientRect()
   const containerWidth = containerRect.width
   const containerHeight = containerRect.height || 320
 
@@ -135,14 +139,18 @@ function renderChart() {
 
   // Create tooltip if it doesn't exist
   if (!tooltip.value) {
-    tooltip.value = d3.select(chartContainer.value)
+    tooltip.value = d3.select(container)
       .append('div')
       .attr('class', 'absolute pointer-events-none transition-opacity duration-200 bg-white dark:bg-neutral-800 p-2 rounded shadow-md text-sm z-10')
       .style('opacity', 0)
   }
 
   // Create SVG
-  const svg = d3.select(chartContainer.value)
+  const tip = tooltip.value
+  if (!tip)
+    return
+
+  const svg = d3.select(container)
     .append('svg')
     .attr('width', '100%')
     .attr('height', '100%')
@@ -153,11 +161,11 @@ function renderChart() {
 
   // Set up scales
   const xExtent = [0, maxDays + ageInDays]
-  const yExtent = [0, d3.max([
+  const yExtent = [0, (d3.max([
     ...chartData.dataPoints.withRetrievals,
     ...chartData.dataPoints.withoutRetrievals,
     ...chartData.dataPoints.ltmProjection,
-  ], d => d.y) * 1.1]
+  ], d => d.y) ?? 0) * 1.1]
 
   const xScale = d3.scaleLinear()
     .domain(xExtent)
@@ -180,7 +188,7 @@ function renderChart() {
   }
 
   // Add data points with interaction
-  addDataPoints(svg, chartData.dataPoints.withRetrievals, xScale, yScale)
+  addDataPoints(svg, chartData.dataPoints.withRetrievals, xScale, yScale, tip)
 
   // Add chart title and legends
   addTitleAndLegends(svg, story.id, retrievals, ltmFactor, width)
@@ -348,7 +356,13 @@ function addDataLines(
   }
 }
 
-function addDataPoints(svg: d3.Selection<SVGGElement, unknown, null, undefined>, dataPoints: DataPoint[], xScale: d3.ScaleLinear<number, number>, yScale: d3.ScaleLinear<number, number>) {
+function addDataPoints(
+  svg: d3.Selection<SVGGElement, unknown, null, undefined>,
+  dataPoints: DataPoint[],
+  xScale: d3.ScaleLinear<number, number>,
+  yScale: d3.ScaleLinear<number, number>,
+  tip: d3.Selection<HTMLDivElement, unknown, null, undefined>,
+) {
   svg.selectAll('.point-with-retrievals')
     .data(dataPoints)
     .enter()
@@ -366,7 +380,7 @@ function addDataPoints(svg: d3.Selection<SVGGElement, unknown, null, undefined>,
         .duration(200)
         .attr('r', 8)
 
-      tooltip.value
+      tip
         .style('opacity', 1)
         .html(`
           <div class="font-semibold">${d.label}</div>
@@ -382,7 +396,7 @@ function addDataPoints(svg: d3.Selection<SVGGElement, unknown, null, undefined>,
         .duration(200)
         .attr('r', (d, i) => i < 2 ? 6 : 5)
 
-      tooltip.value
+      tip
         .transition()
         .duration(200)
         .style('opacity', 0)

@@ -3,7 +3,47 @@ import { drizzle } from '../../../../src/index'
 
 import * as schema from '../../../db/schema'
 
-export async function connectToDatabase() {
+export type MemoryPlaygroundDB = any
+
+interface DecayQueryOptions {
+  simulatedTimeOffset: number
+  decayRate: number
+  timeUnitInSeconds: number
+  longTermMemoryEnabled: boolean
+  longTermMemoryThreshold: number
+  longTermMemoryStability: number
+  retrievalBoost: number
+  retrievalDecaySlowdown: number
+}
+
+interface EmotionalDecayQueryOptions extends DecayQueryOptions {
+  joyBoostFactor: number
+  joyDecaySteepness: number
+  aversionSpikeFactor: number
+  aversionStability: number
+  randomRecallProbability: number
+  flashbackIntensity: number
+}
+
+interface EmotionalRetrievalModifiers {
+  joyModifier?: number
+  aversionModifier?: number
+}
+
+interface MemorySampleData {
+  id: string
+  score: number
+  updated_at: string
+  last_retrieved_at: string
+  retrieval_count: number
+}
+
+interface EmotionalSampleData extends MemorySampleData {
+  joy_score: string
+  aversion_score: string
+}
+
+export async function connectToDatabase(): Promise<MemoryPlaygroundDB> {
   return drizzle(buildDSN({
     scheme: 'duckdb-wasm:',
     bundles: 'import-url',
@@ -11,7 +51,7 @@ export async function connectToDatabase() {
   }), { schema })
 }
 
-export async function createSchema(db) {
+export async function createSchema(db: MemoryPlaygroundDB): Promise<void> {
   await db.execute(`
     CREATE TABLE IF NOT EXISTS memories_decay_test_table (
       id VARCHAR,
@@ -23,9 +63,9 @@ export async function createSchema(db) {
   `)
 }
 
-export async function loadSampleData(db) {
+export async function loadSampleData(db: MemoryPlaygroundDB): Promise<void> {
   const now = new Date()
-  const sampleData = []
+  const sampleData: MemorySampleData[] = []
 
   for (let i = 1; i <= 20; i++) {
     const daysAgo = Math.random() * 60
@@ -53,7 +93,7 @@ export async function loadSampleData(db) {
   }
 }
 
-export async function generateDecayQuery(db, {
+export async function generateDecayQuery(_db: MemoryPlaygroundDB, {
   simulatedTimeOffset,
   decayRate,
   timeUnitInSeconds,
@@ -62,7 +102,7 @@ export async function generateDecayQuery(db, {
   longTermMemoryStability,
   retrievalBoost,
   retrievalDecaySlowdown,
-}) {
+}: DecayQueryOptions): Promise<string> {
   const simulatedTimestamp = `(CAST(now() AS TIMESTAMP) + INTERVAL '${simulatedTimeOffset} seconds')`
 
   const ltmFactorClause = longTermMemoryEnabled
@@ -104,7 +144,7 @@ export async function generateDecayQuery(db, {
   return query
 }
 
-export async function simulateRetrieval(db, storyId, simulatedTime) {
+export async function simulateRetrieval(db: MemoryPlaygroundDB, storyId: string, simulatedTime: Date): Promise<void> {
   const simulatedTimestamp = simulatedTime.toISOString()
 
   await db.execute(`
@@ -115,7 +155,7 @@ export async function simulateRetrieval(db, storyId, simulatedTime) {
   `)
 }
 
-export async function generateEmotionalDecayQuery(db, {
+export async function generateEmotionalDecayQuery(_db: MemoryPlaygroundDB, {
   simulatedTimeOffset,
   decayRate,
   timeUnitInSeconds,
@@ -130,7 +170,7 @@ export async function generateEmotionalDecayQuery(db, {
   aversionStability,
   randomRecallProbability,
   flashbackIntensity,
-}) {
+}: EmotionalDecayQueryOptions): Promise<string> {
   const simulatedTimestamp = `(CAST(now() AS TIMESTAMP) + INTERVAL '${simulatedTimeOffset} seconds')`
 
   const ltmFactorClause = longTermMemoryEnabled
@@ -188,7 +228,7 @@ export async function generateEmotionalDecayQuery(db, {
   return query
 }
 
-export async function createEmotionalSchema(db) {
+export async function createEmotionalSchema(db: MemoryPlaygroundDB): Promise<void> {
   await db.execute(`
     CREATE TABLE IF NOT EXISTS emotional_memories_test_table (
       id VARCHAR,
@@ -202,9 +242,9 @@ export async function createEmotionalSchema(db) {
   `)
 }
 
-export async function loadEmotionalSampleData(db) {
+export async function loadEmotionalSampleData(db: MemoryPlaygroundDB): Promise<void> {
   const now = new Date()
-  const sampleData = []
+  const sampleData: EmotionalSampleData[] = []
 
   for (let i = 1; i <= 20; i++) {
     const daysAgo = Math.random() * 60
@@ -241,7 +281,12 @@ export async function loadEmotionalSampleData(db) {
   }
 }
 
-export async function simulateEmotionalRetrieval(db, memoryId, simulatedTime, { joyModifier = 0, aversionModifier = 0 }) {
+export async function simulateEmotionalRetrieval(
+  db: MemoryPlaygroundDB,
+  memoryId: string,
+  simulatedTime: Date,
+  { joyModifier = 0, aversionModifier = 0 }: EmotionalRetrievalModifiers = {},
+): Promise<void> {
   const simulatedTimestamp = simulatedTime.toISOString()
 
   await db.execute(`

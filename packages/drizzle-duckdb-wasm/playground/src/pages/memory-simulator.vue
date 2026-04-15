@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { MemoryPlaygroundDB } from '../composables/memory/memory-decay-db'
 import type { EmotionalMemoryItem } from '../types/memory/emotional-memory'
 
 import { useDebounceFn } from '@vueuse/core'
@@ -20,12 +21,12 @@ import {
 } from '../composables/memory/memory-decay-db'
 
 // Database references
-const db = ref(null)
+const db = ref<MemoryPlaygroundDB | null>(null)
 const isMigrated = ref(false)
 
 // Data and query results
 const processedResults = ref<EmotionalMemoryItem[]>([])
-const selectedMemoryId = ref(null)
+const selectedMemoryId = ref<string | null>(null)
 
 // Memory model parameters
 const decayRate = ref(0.0990)
@@ -82,7 +83,16 @@ const currentSimulatedTime = computed(() => {
 const heatmapTimeRange = ref(30) // Show last 30 days by default
 
 // Add this after the other refs
-const memoryHistory = ref(new Map())
+interface MemoryHistoryPoint {
+  timestamp: number
+  simulatedTime: number
+  score: number
+  joy: number
+  aversion: number
+  retrievalCount: number
+}
+
+const memoryHistory = ref(new Map<string, MemoryHistoryPoint[]>())
 
 // Maximum number of history points to track per memory
 const historyLength = 20
@@ -113,6 +123,9 @@ watch([
   randomRecallProbability,
   flashbackIntensity,
 ], async () => {
+  if (!db.value)
+    return
+
   const query = await generateEmotionalQuery(db.value, {
     simulatedTimeOffset: simulatedTimeOffset.value,
     decayRate: decayRate.value,
@@ -135,10 +148,10 @@ watch([
 
 // Run the decay query
 async function runDecayQuery() {
-  if (!emotionalDecayQuery.value)
+  if (!db.value || !emotionalDecayQuery.value)
     return
 
-  const queryResults = await db.value?.execute(emotionalDecayQuery.value) || []
+  const queryResults = (await db.value?.execute(emotionalDecayQuery.value) as unknown as EmotionalMemoryItem[]) || []
 
   // Update memory history with new data points
   for (const memory of queryResults) {
@@ -148,6 +161,8 @@ async function runDecayQuery() {
     }
 
     const history = memoryHistory.value.get(memory.id)
+    if (!history)
+      continue
 
     // Add current state to history with timestamp
     history.push({
@@ -191,7 +206,10 @@ function generateChartData() {
 }
 
 // Handle simulated retrieval with emotional response
-async function handleRetrieval(memoryId, { joyModifier = 0, aversionModifier = 0 } = {}) {
+async function handleRetrieval(memoryId: string, { joyModifier = 0, aversionModifier = 0 }: { joyModifier?: number, aversionModifier?: number } = {}) {
+  if (!db.value)
+    return
+
   await simulateEmotionalRetrieval(db.value, memoryId, new Date(Date.now() + simulatedTimeOffset.value * 1000), {
     joyModifier,
     aversionModifier,
@@ -237,13 +255,16 @@ async function processRandomRetrievals() {
 
 // Handle memory projection reset
 async function resetProjection() {
+  if (!db.value)
+    return
+
   await loadEmotionalSampleData(db.value) // true flag to reset data
   simulatedTimeOffset.value = 0
   await runDecayQuery()
 }
 
 // Handle time jump
-async function handleTimeJump({ amount, unit }) {
+async function handleTimeJump({ amount, unit }: { amount: number, unit: 'hour' | 'day' | 'week' | 'month' | 'year' }) {
   let secondsToAdd = 0
 
   switch (unit) {
@@ -320,7 +341,9 @@ onMounted(async () => {
 
 onUnmounted(() => {
   isTimeAccelerated.value = false
-  db.value?.$client.then(client => client.close())
+  db.value?.$client.then((client: any) => {
+    client.close()
+  })
 })
 </script>
 
@@ -463,7 +486,7 @@ onUnmounted(() => {
           <EmotionalMemoryChart
             v-if="selectedMemory"
             :memory-data="processedResults"
-            :selected-memory-id="selectedMemoryId"
+            :selected-memory-id="selectedMemoryId!"
             :decay-rate="decayRate"
             :max-days-to-project="maxDaysToProject"
             :long-term-threshold="longTermThreshold"

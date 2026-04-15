@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import type { SimulationLinkDatum, SimulationNodeDatum } from 'd3'
 
-import type { DuckDBWasmDrizzleDatabase } from '../../../src'
-
 // import { eq, inArray } from 'drizzle-orm'
 import { onMounted, onUnmounted, ref, watch } from 'vue'
 
@@ -16,8 +14,8 @@ import { edgeGroups, edgeOwners, edgePets, edgeUsers, nodeGroups, nodePets, node
 
 import * as schema from '../../db/schema'
 
-const db = ref<DuckDBWasmDrizzleDatabase<typeof schema>>()
-const results = ref<Record<string, unknown>[]>()
+const db = ref<any>(null)
+const results = ref<Record<string, unknown>[]>([])
 // const schemaResults = ref<Record<string, unknown>[]>()
 const isMigrated = ref(false)
 
@@ -28,10 +26,10 @@ interface Node extends SimulationNodeDatum {
 }
 
 const graphData = ref<{ nodes: Node[], links: (SimulationLinkDatum<Node> & { type: string })[] }>({ nodes: [], links: [] })
-const queryResult = ref(null)
-const queryType = ref('simple') // 'simple', 'recursive', 'path'
-const selectedStartNode = ref(null)
-const selectedEndNode = ref(null)
+const queryResult = ref<Array<Record<string, any>>>([])
+const queryType = ref<'simple' | 'recursive' | 'path'>('simple')
+const selectedStartNode = ref<string | null>(null)
+const selectedEndNode = ref<string | null>(null)
 
 async function connect() {
   isMigrated.value = false
@@ -63,35 +61,41 @@ async function connect() {
 // }
 
 async function migrate() {
+  if (!db.value)
+    return
+
   await db.value?.execute(migration1)
 
-  const group1 = await db.value?.insert(nodeGroups).values({ id: crypto.randomUUID().replace(/-/g, ''), name: 'Group 1' }).returning()
-  const group2 = await db.value?.insert(nodeGroups).values({ id: crypto.randomUUID().replace(/-/g, ''), name: 'Group 2' }).returning()
-  const user1 = await db.value?.insert(nodeUsers).values({ id: crypto.randomUUID().replace(/-/g, ''), name: 'User 1' }).returning()
-  const user2 = await db.value?.insert(nodeUsers).values({ id: crypto.randomUUID().replace(/-/g, ''), name: 'User 2' }).returning()
-  const user3 = await db.value?.insert(nodeUsers).values({ id: crypto.randomUUID().replace(/-/g, ''), name: 'User 3' }).returning()
-  const user4 = await db.value?.insert(nodeUsers).values({ id: crypto.randomUUID().replace(/-/g, ''), name: 'User 4' }).returning()
-  const pet1 = await db.value?.insert(nodePets).values({ id: crypto.randomUUID().replace(/-/g, ''), name: 'Pet 1' }).returning()
-  const pet2 = await db.value?.insert(nodePets).values({ id: crypto.randomUUID().replace(/-/g, ''), name: 'Pet 2' }).returning()
+  const [group1] = await db.value.insert(nodeGroups).values({ id: crypto.randomUUID().replace(/-/g, ''), name: 'Group 1' }).returning()
+  const [group2] = await db.value.insert(nodeGroups).values({ id: crypto.randomUUID().replace(/-/g, ''), name: 'Group 2' }).returning()
+  const [user1] = await db.value.insert(nodeUsers).values({ id: crypto.randomUUID().replace(/-/g, ''), name: 'User 1' }).returning()
+  const [user2] = await db.value.insert(nodeUsers).values({ id: crypto.randomUUID().replace(/-/g, ''), name: 'User 2' }).returning()
+  const [user3] = await db.value.insert(nodeUsers).values({ id: crypto.randomUUID().replace(/-/g, ''), name: 'User 3' }).returning()
+  const [user4] = await db.value.insert(nodeUsers).values({ id: crypto.randomUUID().replace(/-/g, ''), name: 'User 4' }).returning()
+  const [pet1] = await db.value.insert(nodePets).values({ id: crypto.randomUUID().replace(/-/g, ''), name: 'Pet 1' }).returning()
+  const [pet2] = await db.value.insert(nodePets).values({ id: crypto.randomUUID().replace(/-/g, ''), name: 'Pet 2' }).returning()
+
+  if (!group1 || !group2 || !user1 || !user2 || !user3 || !user4 || !pet1 || !pet2)
+    return
 
   // Insert edges
   // User to Group edges (One to M)
-  await db.value?.insert(edgeGroups).values({ id: crypto.randomUUID().replace(/-/g, ''), source: group1[0].id, target: user1[0].id }).returning()
-  await db.value?.insert(edgeGroups).values({ id: crypto.randomUUID().replace(/-/g, ''), source: group1[0].id, target: user2[0].id }).returning()
-  await db.value?.insert(edgeGroups).values({ id: crypto.randomUUID().replace(/-/g, ''), source: group2[0].id, target: user3[0].id }).returning()
+  await db.value?.insert(edgeGroups).values({ id: crypto.randomUUID().replace(/-/g, ''), source: group1.id, target: user1.id }).returning()
+  await db.value?.insert(edgeGroups).values({ id: crypto.randomUUID().replace(/-/g, ''), source: group1.id, target: user2.id }).returning()
+  await db.value?.insert(edgeGroups).values({ id: crypto.randomUUID().replace(/-/g, ''), source: group2.id, target: user3.id }).returning()
   // Group to User edges (M to M)
-  await db.value?.insert(edgeUsers).values({ id: crypto.randomUUID().replace(/-/g, ''), source: user1[0].id, target: group1[0].id }).returning()
-  await db.value?.insert(edgeUsers).values({ id: crypto.randomUUID().replace(/-/g, ''), source: user2[0].id, target: group2[0].id }).returning()
-  await db.value?.insert(edgeUsers).values({ id: crypto.randomUUID().replace(/-/g, ''), source: user3[0].id, target: group2[0].id }).returning()
+  await db.value?.insert(edgeUsers).values({ id: crypto.randomUUID().replace(/-/g, ''), source: user1.id, target: group1.id }).returning()
+  await db.value?.insert(edgeUsers).values({ id: crypto.randomUUID().replace(/-/g, ''), source: user2.id, target: group2.id }).returning()
+  await db.value?.insert(edgeUsers).values({ id: crypto.randomUUID().replace(/-/g, ''), source: user3.id, target: group2.id }).returning()
   // User to Pet edges (One to M)
-  await db.value?.insert(edgePets).values({ id: crypto.randomUUID().replace(/-/g, ''), source: user1[0].id, target: pet1[0].id }).returning()
-  await db.value?.insert(edgePets).values({ id: crypto.randomUUID().replace(/-/g, ''), source: user2[0].id, target: pet2[0].id }).returning()
+  await db.value?.insert(edgePets).values({ id: crypto.randomUUID().replace(/-/g, ''), source: user1.id, target: pet1.id }).returning()
+  await db.value?.insert(edgePets).values({ id: crypto.randomUUID().replace(/-/g, ''), source: user2.id, target: pet2.id }).returning()
   // Pet to User edges (M to One)
-  await db.value?.insert(edgeOwners).values({ id: crypto.randomUUID().replace(/-/g, ''), source: pet1[0].id, target: user1[0].id }).returning()
-  await db.value?.insert(edgeOwners).values({ id: crypto.randomUUID().replace(/-/g, ''), source: pet2[0].id, target: user2[0].id }).returning()
+  await db.value?.insert(edgeOwners).values({ id: crypto.randomUUID().replace(/-/g, ''), source: pet1.id, target: user1.id }).returning()
+  await db.value?.insert(edgeOwners).values({ id: crypto.randomUUID().replace(/-/g, ''), source: pet2.id, target: user2.id }).returning()
   // // Create a more complex relationship - user4 has both pets
-  await db.value?.insert(edgePets).values({ id: crypto.randomUUID().replace(/-/g, ''), source: user4[0].id, target: pet1[0].id }).returning()
-  await db.value?.insert(edgePets).values({ id: crypto.randomUUID().replace(/-/g, ''), source: user4[0].id, target: pet2[0].id }).returning()
+  await db.value?.insert(edgePets).values({ id: crypto.randomUUID().replace(/-/g, ''), source: user4.id, target: pet1.id }).returning()
+  await db.value?.insert(edgePets).values({ id: crypto.randomUUID().replace(/-/g, ''), source: user4.id, target: pet2.id }).returning()
 
   // First, let's check if our data was inserted correctly
   // console.log('Users:', await db.value?.select().from(nodeUsers))
@@ -127,36 +131,45 @@ async function migrate() {
 
 // Fetch all nodes and edges for visualization
 async function fetchGraphData() {
-  const users = await db.value?.select().from(nodeUsers)
-  const groups = await db.value?.select().from(nodeGroups)
-  const pets = await db.value?.select().from(nodePets)
+  if (!db.value)
+    return
 
-  const userEdges = await db.value?.select().from(edgeUsers)
-  const groupEdges = await db.value?.select().from(edgeGroups)
-  const petEdges = await db.value?.select().from(edgePets)
-  const ownerEdges = await db.value?.select().from(edgeOwners)
+  const users = await db.value.select().from(nodeUsers) ?? []
+  const groups = await db.value.select().from(nodeGroups) ?? []
+  const pets = await db.value.select().from(nodePets) ?? []
+
+  const userEdges = await db.value.select().from(edgeUsers) ?? []
+  const groupEdges = await db.value.select().from(edgeGroups) ?? []
+  const petEdges = await db.value.select().from(edgePets) ?? []
+  const ownerEdges = await db.value.select().from(edgeOwners) ?? []
 
   // Prepare nodes with different types
   const nodes = [
-    ...users.map(u => ({ id: u.id, name: u.name, type: 'user' } satisfies Node)),
-    ...groups.map(g => ({ id: g.id, name: g.name, type: 'group' } satisfies Node)),
-    ...pets.map(p => ({ id: p.id, name: p.name, type: 'pet' } satisfies Node)),
+    ...users.map((u: any) => ({ id: u.id, name: u.name, type: 'user' } satisfies Node)),
+    ...groups.map((g: any) => ({ id: g.id, name: g.name, type: 'group' } satisfies Node)),
+    ...pets.map((p: any) => ({ id: p.id, name: p.name, type: 'pet' } satisfies Node)),
   ]
 
   // Prepare links with different types
-  const links = [
-    ...userEdges.map(e => ({ source: e.source, target: e.target, type: 'user-group' })),
-    ...groupEdges.map(e => ({ source: e.source, target: e.target, type: 'group-user' })),
-    ...petEdges.map(e => ({ source: e.source, target: e.target, type: 'user-pet' })),
-    ...ownerEdges.map(e => ({ source: e.source, target: e.target, type: 'pet-owner' })),
+  const links: (SimulationLinkDatum<Node> & { type: string })[] = []
+  const rawLinks = [
+    ...userEdges.map((e: any) => ({ source: e.source, target: e.target, type: 'user-group' })),
+    ...groupEdges.map((e: any) => ({ source: e.source, target: e.target, type: 'group-user' })),
+    ...petEdges.map((e: any) => ({ source: e.source, target: e.target, type: 'user-pet' })),
+    ...ownerEdges.map((e: any) => ({ source: e.source, target: e.target, type: 'pet-owner' })),
   ]
+  for (const link of rawLinks) {
+    if (!link.source || !link.target)
+      continue
+    links.push({ source: link.source, target: link.target, type: link.type })
+  }
 
   graphData.value = { nodes, links }
 
   // Set default selected nodes for queries
   if (nodes.length > 0) {
-    selectedStartNode.value = nodes.find(n => n.type === 'user')?.id
-    selectedEndNode.value = nodes.find(n => n.type === 'user' && n.id !== selectedStartNode.value)?.id
+    selectedStartNode.value = nodes.find(n => n.type === 'user')?.id ?? null
+    selectedEndNode.value = nodes.find(n => n.type === 'user' && n.id !== selectedStartNode.value)?.id ?? null
   }
 }
 
@@ -215,7 +228,7 @@ async function runSimpleQuery() {
     ) n ON e.id = n.id
   `)
 
-  queryResult.value = result
+  queryResult.value = result ?? []
   highlightQueryResults(result)
 }
 
@@ -287,7 +300,7 @@ async function runRecursiveQuery() {
     ORDER BY depth, name
   `)
 
-  queryResult.value = result
+  queryResult.value = result ?? []
   highlightQueryResults(result)
 }
 
@@ -363,12 +376,12 @@ async function runPathQuery() {
     LIMIT 1
   `)
 
-  queryResult.value = result
+  queryResult.value = result ?? []
   highlightQueryResults(result)
 }
 
 // Highlight nodes and edges based on query results
-function highlightQueryResults(results) {
+function highlightQueryResults(results: Array<Record<string, any>> | undefined) {
   // Reset all highlights
   d3.selectAll('.node').classed('highlighted', false).classed('in-path', false)
   d3.selectAll('.link').classed('highlighted', false).classed('in-path', false)
@@ -381,7 +394,7 @@ function highlightQueryResults(results) {
     const pathIds = new Set()
     const pathLinks = new Set()
 
-    results.forEach((row) => {
+    results.forEach((row: { path?: string[] }) => {
       if (row.path && row.path.length > 1) {
         // Add all nodes in the path
         row.path.forEach(id => pathIds.add(id))
@@ -395,26 +408,26 @@ function highlightQueryResults(results) {
 
     // Highlight nodes in the path
     d3.selectAll('.node')
-      .classed('in-path', (d: { id: string }) => pathIds.has(d.id))
+      .classed('in-path', (d: any) => pathIds.has(d.id))
 
     // Highlight links in the path
     d3.selectAll('.link')
-      .classed('in-path', (d: { source: { id: string }, target: { id: string } }) => {
+      .classed('in-path', (d: any) => {
         return pathLinks.has(`${d.source.id}-${d.target.id}`)
           || pathLinks.has(`${d.target.id}-${d.source.id}`)
       })
   }
   // For simple queries, just highlight the direct connections
   else {
-    const nodeIds = new Set(results.map(r => r.id))
+    const nodeIds = new Set(results.map((r: any) => r.id))
 
     // Highlight nodes
     d3.selectAll('.node')
-      .classed('highlighted', (d: { id: string }) => nodeIds.has(d.id))
+      .classed('highlighted', (d: any) => nodeIds.has(d.id))
 
     // Highlight links
     d3.selectAll('.link')
-      .classed('highlighted', (d: { source: { id: string }, target: { id: string } }) => {
+      .classed('highlighted', (d: any) => {
         return (d.source.id === selectedStartNode.value && nodeIds.has(d.target.id))
           || (d.target.id === selectedStartNode.value && nodeIds.has(d.source.id))
       })
@@ -553,10 +566,10 @@ function createGraph() {
     .data(graphData.value.nodes)
     .join('g')
     .attr('class', 'node')
-    .call(d3.drag<SVGCircleElement, Node>()
+    .call((d3.drag<SVGGElement, Node>()
       .on('start', dragstarted)
       .on('drag', dragged)
-      .on('end', dragended))
+      .on('end', dragended)) as any)
     .on('click', (event, d) => {
       // Toggle selection of nodes for queries
       if (event.ctrlKey || event.metaKey) {
@@ -636,28 +649,28 @@ function createGraph() {
   // Update positions on each tick
   simulation.on('tick', () => {
     link
-      .attr('x1', d => (d.source as SimulationNodeDatum).x)
-      .attr('y1', d => (d.source as SimulationNodeDatum).y)
-      .attr('x2', d => (d.target as SimulationNodeDatum).x)
-      .attr('y2', d => (d.target as SimulationNodeDatum).y)
+      .attr('x1', d => (d.source as SimulationNodeDatum).x ?? 0)
+      .attr('y1', d => (d.source as SimulationNodeDatum).y ?? 0)
+      .attr('x2', d => (d.target as SimulationNodeDatum).x ?? 0)
+      .attr('y2', d => (d.target as SimulationNodeDatum).y ?? 0)
 
     node.attr('transform', d => `translate(${d.x},${d.y})`)
   })
 
   // Drag functions
-  function dragstarted(event) {
+  function dragstarted(event: d3.D3DragEvent<SVGGElement, Node, Node>) {
     if (!event.active)
       simulation.alphaTarget(0.3).restart()
     event.subject.fx = event.subject.x
     event.subject.fy = event.subject.y
   }
 
-  function dragged(event) {
+  function dragged(event: d3.D3DragEvent<SVGGElement, Node, Node>) {
     event.subject.fx = event.x
     event.subject.fy = event.y
   }
 
-  function dragended(event) {
+  function dragended(event: d3.D3DragEvent<SVGGElement, Node, Node>) {
     if (!event.active)
       simulation.alphaTarget(0)
     event.subject.fx = null
@@ -676,7 +689,7 @@ onMounted(async () => {
   await connect()
   await migrate()
 
-  results.value = await db.value?.execute('SHOW TABLES;')
+  results.value = await db.value?.execute('SHOW TABLES;') ?? []
   // const usersResults = await db.value?.select().from(users)
   // schemaResults.value = usersResults
   // console.log(results.value)
@@ -686,7 +699,7 @@ onMounted(async () => {
 })
 
 onUnmounted(() => {
-  db.value?.$client.then(client => client.close())
+  db.value?.$client.then((client: any) => client.close())
 })
 </script>
 
