@@ -59,8 +59,8 @@
     "preview:play": "vite preview",
     "typecheck": "vue-tsc --noEmit",
     "db:generate": "drizzle-kit generate",
-    "test": "vitest",
-    "test:run": "vitest run",
+    "test": "pnpm --workspace-root exec vitest --config packages/drizzle-duckdb-wasm/vitest.config.ts",
+    "test:run": "pnpm --workspace-root exec vitest run --config packages/drizzle-duckdb-wasm/vitest.config.ts",
     "attw": "attw --pack . --profile esm-only --ignore-rules cjs-resolves-to-esm"
   },
   "peerDependencies": {
@@ -73,32 +73,31 @@
     }
   },
   "dependencies": {
-    "@date-fns/tz": "^1.4.1",
+    "@date-fns/tz": "^1.5.0",
     "@duckdb/duckdb-wasm": "1.29.1-dev68.0",
     "@moeru/std": "0.1.0-beta.1",
     "@proj-airi/duckdb-wasm": "workspace:^",
-    "apache-arrow": "^21.1.0",
-    "date-fns": "^4.1.0",
-    "es-toolkit": "^1.45.1"
+    "apache-arrow": "^21.2.0",
+    "date-fns": "^4.4.0",
+    "es-toolkit": "^1.50.0"
   },
   "devDependencies": {
-    "@iconify-json/simple-icons": "^1.2.78",
+    "@iconify-json/simple-icons": "^1.2.93",
     "@iconify-json/solar": "^1.2.5",
     "@types/d3": "^7.4.3",
     "@types/d3-force": "^3.0.10",
-    "@unocss/reset": "^66.6.8",
-    "@vitejs/plugin-vue": "^6.0.6",
-    "@vitest/browser": "^4.1.4",
-    "@vueuse/core": "^14.2.1",
+    "@unocss/reset": "^66.7.5",
+    "@vitejs/plugin-vue": "^6.0.8",
+    "@vueuse/core": "^14.4.0",
     "d3": "^7.9.0",
     "d3-force": "^3.0.0",
     "drizzle-kit": "^0.31.10",
-    "playwright": "^1.59.1",
-    "reka-ui": "^2.9.6",
+    "playwright": "^1.62.1",
+    "reka-ui": "^2.10.1",
     "superjson": "^2.2.6",
-    "vite": "^8.0.8",
-    "vue": "^3.5.32",
+    "vite": "^8.2.0",
+    "vue": "^3.5.40",
     "vue-router": "5.0.0-beta.2",
-    "vue-tsc": "^3.2.6"
+    "vue-tsc": "^3.3.9"
   }
 }

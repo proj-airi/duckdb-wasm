@@ -12,6 +12,7 @@ export default await antfu(
       'antfu/import-dedupe': 'error',
       'import/order': 'off',
       'style/padding-line-between-statements': 'error',
+      'vue/prefer-separate-static-class': 'off',
     },
   },
   {
